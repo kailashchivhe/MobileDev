@@ -3,4 +3,7 @@
     <dimen name="generic_text_size">18sp</dimen>
     <dimen name="generic_small_margin">8dp</dimen>
     <dimen name="generic_margin">16dp</dimen>
+    <integer name="seekbar_max">50</integer>
+    <integer name="seekbar_min">0</integer>
+    <integer name="default_seek_value">40</integer>
 </resources>

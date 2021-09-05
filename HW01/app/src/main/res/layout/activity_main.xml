@@ -7,56 +7,59 @@
 
     <TextView
         android:id="@+id/ticketPrice"
-        android:text="@string/bill_total"
-        android:textSize="@dimen/generic_text_size"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/generic_margin"/>
+        android:layout_marginStart="@dimen/generic_margin"
+        android:layout_marginTop="@dimen/generic_margin"
+        android:layout_marginEnd="@dimen/generic_margin"
+        android:layout_marginBottom="@dimen/generic_margin"
+        android:text="@string/bill_total"
+        android:textSize="@dimen/generic_text_size" />
 
     <EditText
         android:id="@+id/editText"
-        android:textSize="@dimen/generic_text_size"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal|numberSigned"
-        android:hint="@string/enter_bill_total"
-        android:layout_marginTop="@dimen/generic_small_margin"
         android:layout_marginStart="@dimen/generic_small_margin"
-        android:layout_marginEnd="@dimen/generic_margin"
-        android:layout_toEndOf="@id/ticketPrice"/>
+        android:layout_marginTop="@dimen/generic_small_margin"
+        android:layout_toEndOf="@id/ticketPrice"
+        android:hint="@string/enter_bill_total"
+        android:inputType="numberDecimal|numberSigned"
+        android:textSize="@dimen/generic_text_size" />
 
     <TextView
         android:id="@+id/tip_percent"
-        android:text="@string/tip_percent"
-        android:textSize="@dimen/generic_text_size"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/ticketPrice"
-        android:layout_margin="@dimen/generic_margin"/>
+        android:layout_margin="@dimen/generic_margin"
+        android:text="@string/tip_percent"
+        android:textSize="@dimen/generic_text_size" />
 
     <RadioGroup
         android:id="@+id/radio_group_tip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/editText"
-        android:layout_margin="@dimen/generic_small_margin"
+        android:layout_marginTop="@dimen/generic_small_margin"
+        android:layout_marginStart="@dimen/generic_margin"
         android:orientation="horizontal"
         android:layout_toEndOf="@id/tip">
         <RadioButton
-            android:id="@+id/discount5"
+            android:id="@+id/tip10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/generic_text_size"
             android:checked="true"
             android:text="@string/tip_10"/>
         <RadioButton
-            android:id="@+id/discount10"
+            android:id="@+id/tip15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/generic_text_size"
             android:text="@string/tip_15"/>
         <RadioButton
-            android:id="@+id/discount15"
+            android:id="@+id/tip18"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/generic_text_size"
@@ -72,75 +75,98 @@
     <LinearLayout
         android:id="@+id/custom_container"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/radio_group_tip"
+        android:layout_marginStart="@dimen/generic_small_margin"
+        android:layout_marginTop="@dimen/generic_small_margin"
+        android:layout_marginEnd="@dimen/generic_small_margin"
+        android:layout_marginBottom="@dimen/generic_small_margin"
         android:orientation="horizontal"
-        android:weightSum="10"
-        android:layout_margin="@dimen/generic_small_margin"
-        android:layout_height="wrap_content">
+        android:weightSum="10">
 
         <TextView
             android:id="@+id/custom_text"
-            android:text="@string/custom_seek"
-            android:textSize="@dimen/generic_text_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/generic_small_margin"
             android:layout_weight="0.5"
-            android:layout_margin="@dimen/generic_small_margin"/>
+            android:text="@string/custom_seek"
+            android:textSize="@dimen/generic_text_size" />
 
         <SeekBar
             android:id="@+id/custom_tip_seekbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/generic_small_margin"
-            android:layout_weight="9"/>
+            android:layout_weight="9"
+            android:max="@integer/seekbar_max"
+            android:min="@integer/seekbar_min"
+            android:progress="@integer/default_seek_value" />
 
         <TextView
             android:id="@+id/custom_percentage"
-            android:textSize="@dimen/generic_text_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/generic_small_margin"
             android:layout_weight="0.5"
-            android:layout_margin="@dimen/generic_small_margin"/>
+            android:textColor="#000000"
+            android:textSize="@dimen/generic_text_size" />
 
     </LinearLayout>
 
     <TextView
         android:id="@+id/tip"
-        android:text="@string/tip"
-        android:textSize="@dimen/generic_text_size"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/custom_container"
         android:layout_alignParentStart="true"
-        android:layout_margin="@dimen/generic_margin"/>
+        android:layout_marginStart="@dimen/generic_margin"
+        android:layout_marginTop="@dimen/generic_margin"
+        android:layout_marginEnd="@dimen/generic_margin"
+        android:layout_marginBottom="@dimen/generic_margin"
+        android:text="@string/tip"
+        android:textSize="@dimen/generic_text_size" />
 
     <TextView
-        android:id="@+id/tip_price"
-        android:textSize="@dimen/generic_text_size"
+        android:id="@+id/tip_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/custom_container"
+        android:layout_marginStart="@dimen/generic_margin"
+        android:layout_marginTop="@dimen/generic_margin"
+        android:layout_marginEnd="@dimen/generic_margin"
+        android:layout_marginBottom="@dimen/generic_margin"
         android:layout_toEndOf="@id/tip"
-        android:layout_margin="@dimen/generic_margin"/>
+        android:text="@string/default_tip_value"
+        android:textColor="#000000"
+        android:textSize="@dimen/generic_text_size" />
 
     <TextView
         android:id="@+id/total"
-        android:text="@string/total"
-        android:textSize="@dimen/generic_text_size"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tip"
         android:layout_alignParentStart="true"
-        android:layout_margin="@dimen/generic_margin"/>
+        android:layout_marginStart="@dimen/generic_margin"
+        android:layout_marginTop="@dimen/generic_margin"
+        android:layout_marginEnd="@dimen/generic_margin"
+        android:layout_marginBottom="@dimen/generic_margin"
+        android:text="@string/total"
+        android:textSize="@dimen/generic_text_size" />
 
     <TextView
-        android:id="@+id/total_price"
-        android:textSize="@dimen/generic_text_size"
+        android:id="@+id/total_bill"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tip_price"
+        android:layout_below="@id/tip_value"
+        android:layout_marginStart="@dimen/generic_margin"
+        android:layout_marginTop="@dimen/generic_margin"
+        android:layout_marginEnd="@dimen/generic_margin"
+        android:layout_marginBottom="@dimen/generic_margin"
         android:layout_toEndOf="@id/total"
-        android:layout_margin="@dimen/generic_margin"/>
+        android:text="@string/default_tip_value"
+        android:textColor="#000000"
+        android:textSize="@dimen/generic_text_size" />
 
     <TextView
         android:id="@+id/split_text"
@@ -156,7 +182,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/total"
-        android:layout_margin="@dimen/generic_small_margin"
+        android:layout_marginTop="@dimen/generic_small_margin"
+        android:layout_marginEnd="@dimen/generic_small_margin"
+        android:layout_marginBottom="@dimen/generic_small_margin"
         android:layout_toEndOf="@id/split_text"
         android:orientation="horizontal">
 
@@ -164,48 +192,55 @@
             android:id="@+id/one"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/generic_text_size"
             android:checked="true"
-            android:text="@string/one"/>
+            android:text="@string/one"
+            android:textSize="@dimen/generic_text_size" />
+
         <RadioButton
             android:id="@+id/two"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/generic_text_size"
-            android:text="@string/two"/>
+            android:text="@string/two"
+            android:textSize="@dimen/generic_text_size" />
+
         <RadioButton
             android:id="@+id/three"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/generic_text_size"
-            android:text="@string/three"/>
+            android:text="@string/three"
+            android:textSize="@dimen/generic_text_size" />
+
         <RadioButton
             android:id="@+id/four"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/generic_text_size"
-            android:text="@string/four"/>
+            android:text="@string/four"
+            android:textSize="@dimen/generic_text_size" />
     </RadioGroup>
-
 
     <TextView
         android:id="@+id/per_total"
-        android:text="@string/total"
-        android:textSize="@dimen/generic_text_size"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/radio_group_split"
         android:layout_alignParentStart="true"
-        android:layout_margin="@dimen/generic_margin"/>
+        android:layout_margin="@dimen/generic_margin"
+        android:text="@string/total_person"
+        android:textSize="@dimen/generic_text_size" />
 
     <TextView
-        android:id="@+id/per_total_price"
-        android:textSize="@dimen/generic_text_size"
+        android:id="@+id/per_person_split"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/radio_group_split"
+        android:layout_marginStart="@dimen/generic_margin"
+        android:layout_marginTop="@dimen/generic_margin"
+        android:layout_marginEnd="@dimen/generic_margin"
+        android:layout_marginBottom="@dimen/generic_margin"
         android:layout_toEndOf="@id/per_total"
-        android:layout_margin="@dimen/generic_margin"/>
+        android:text="@string/default_tip_value"
+        android:textColor="#000000"
+        android:textSize="@dimen/generic_text_size" />
 
     <Button
         android:id="@+id/clear"
@@ -213,9 +248,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/per_total"
         android:layout_margin="@dimen/generic_small_margin"
-        android:enabled="false"
-        android:textColor="@color/black"
+        android:backgroundTint="@color/gray"
         android:text="@string/clear"
-        android:backgroundTint="@color/gray"/>
+        android:textColor="@color/black" />
 
 </RelativeLayout>
