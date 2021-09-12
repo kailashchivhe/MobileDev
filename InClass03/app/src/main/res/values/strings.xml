@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">InClass03</string>
+    <string name="name_label">Name:</string>
+    <string name="name_hint">Enter Name</string>
+
+    <string name="email_label">Email:</string>
+    <string name="email_hint">Enter Email</string>
+
+    <string name="id_label">ID:</string>
+    <string name="id_hint">Enter ID</string>
+
+    <string name="dept_label">Dept:</string>
+
+    <string name="select_button_label">Select</string>
+    <string name="cancel_button_label">Cancel</string>
+    <string name="submit_button_label">Submit</string>
+
+    <string name="radio_label_cs">Computer Science</string>
+    <string name="radio_label_sis">Software Info Systems</string>
+    <string name="radio_label_bi">Bio Informatics</string>
+    <string name="radio_label_ds">Data Science</string>
+
+    <string name="registration">Registration</string>
+    <string name="profile">Profile</string>
+    <string name="department">Department</string>
+    <string name="invalid_text">Invalid Data</string>
+</resources>
