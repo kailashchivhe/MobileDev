@@ -23,5 +23,6 @@
     <string name="registration">Registration</string>
     <string name="profile">Profile</string>
     <string name="department">Department</string>
-    <string name="invalid_text">Invalid Data</string>
+    <string name="invalid_text">Invalid Data Entered</string>
+    <string name="invalid_email">Invalid Email</string>
 </resources>

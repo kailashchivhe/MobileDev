@@ -48,19 +48,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mSubmitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startProfileActivity();
-            }
-        });
+        mSubmitButton.setOnClickListener(v -> startProfileActivity());
 
-        mSelectButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startDepartmentActivity();
-            }
-        });
+        mSelectButton.setOnClickListener(v -> startDepartmentActivity());
     }
 
     public void startDepartmentActivity()
@@ -79,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
             if( !Patterns.EMAIL_ADDRESS.matcher( mEmail.getText()).matches() )
             {
-                Toast.makeText( getApplicationContext(), R.string.invalid_text, Toast.LENGTH_SHORT ).show();
+                Toast.makeText( getApplicationContext(), R.string.invalid_email, Toast.LENGTH_SHORT ).show();
             }
             else{
                 Intent intent = new Intent(MainActivity.this, ProfileActivity.class);

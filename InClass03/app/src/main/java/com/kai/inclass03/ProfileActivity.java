@@ -7,11 +7,6 @@ import android.widget.TextView;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    String mName;
-    String mEmail;
-    String mId;
-    String mDepartmentName;
-
     TextView mNameTextView;
     TextView mEmailTextView;
     TextView mIdTextView;
