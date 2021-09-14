@@ -8,7 +8,6 @@ public class DataServices {
         put("a@a.com", new Account("Alice Smith", "a@a.com", "test123"));
         put("b@b.com", new Account("Bob Smith", "b@b.com", "test123"));
         put("c@c.com", new Account("Charles Smith", "c@c.com", "test123"));
-        put("k", new Account("Alice ", "k", "k"));
     }};
 
     public static AccountRequestTask login(String email, String password){
