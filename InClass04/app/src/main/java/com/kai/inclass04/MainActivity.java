@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements FragmentReplaceLi
     }
 
     @Override
-    public void onSubmitClicked(DataServices.Account account) {
+    public void onSubmitClicked( DataServices.Account account ) {
         AccountFragment accountFragment = AccountFragment.newInstance( account );
         setAccountFragment( accountFragment );
     }
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements FragmentReplaceLi
 
     private void setLoginFragment( Fragment fragment )
     {
-        mFragmentManager.beginTransaction().add( R.id.container, fragment, LoginFragment.TAG ).addToBackStack( LoginFragment.TAG ).commit();
+        mFragmentManager.beginTransaction().add( R.id.container, fragment, LoginFragment.TAG ).commit();
     }
 
     private void setReplaceableLoginFragment( Fragment fragment )
