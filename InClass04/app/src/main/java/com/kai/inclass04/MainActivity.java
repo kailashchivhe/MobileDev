@@ -13,6 +13,11 @@ import com.kai.inclass04.ui.LoginFragment;
 import com.kai.inclass04.ui.RegisterFragment;
 import com.kai.inclass04.ui.UpdateFragment;
 
+/*
+* Assignment: In Class 04
+* File Name: MainActivity
+* Student: Kailash Chivhe & Ankit Vaity
+* */
 public class MainActivity extends AppCompatActivity implements FragmentReplaceListener {
 
     FragmentManager mFragmentManager;
