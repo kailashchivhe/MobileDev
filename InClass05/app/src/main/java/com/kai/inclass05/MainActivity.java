@@ -26,4 +26,8 @@ public class MainActivity extends AppCompatActivity implements FragmentReplaceLi
         mFragmentManager.beginTransaction().add( R.id.container, fragment, AppCategoriesFragment.TAG ).commit();
     }
 
+    @Override
+    public void onAppCategoryClick(String category) {
+        //launch next category list fragment.
+    }
 }

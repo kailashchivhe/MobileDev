@@ -62,9 +62,8 @@ public class AppCategoriesFragment extends Fragment {
         mFragmentAppCategoriesBinding.listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //invoke next fragment
+                mFragmentReplaceListener.onAppCategoryClick(mAdapter.getItem(position));
             }
         });
-
     }
 }
