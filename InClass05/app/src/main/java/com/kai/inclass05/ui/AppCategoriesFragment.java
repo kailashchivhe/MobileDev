@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import com.kai.inclass05.MainActivity;
 import com.kai.inclass05.R;
@@ -19,7 +18,6 @@ import com.kai.inclass05.data.DataServices;
 import com.kai.inclass05.databinding.FragmentAppCategoriesBinding;
 import com.kai.inclass05.listener.FragmentReplaceListener;
 
-import java.util.ArrayList;
 
 public class AppCategoriesFragment extends Fragment {
 
@@ -33,7 +31,6 @@ public class AppCategoriesFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         mFragmentReplaceListener = (MainActivity) context;
-        ((MainActivity) context).setTitle( R.string.app_categories_title );
     }
 
 
@@ -53,6 +50,12 @@ public class AppCategoriesFragment extends Fragment {
         mFragmentAppCategoriesBinding = FragmentAppCategoriesBinding.inflate( inflater, container, false );
         initListView();
         return mFragmentAppCategoriesBinding.getRoot();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mFragmentReplaceListener.setTitle( getString( R.string.app_categories_title ) );
     }
 
     private void initListView() {
