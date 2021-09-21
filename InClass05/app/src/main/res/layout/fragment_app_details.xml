@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:padding="8dp"
         android:layout_below="@+id/appName" />
 
@@ -32,7 +32,7 @@
         android:id="@+id/releaseDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:padding="8dp"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/artist" />
@@ -42,8 +42,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/releaseDate"
-        android:textSize="14sp"
-        android:padding="8dp"
+        android:textSize="16sp"
+        android:layout_marginLeft="16dp"
         android:text="@string/genres"
         android:textStyle="bold"/>
 

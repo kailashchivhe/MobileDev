@@ -13,7 +13,11 @@ import com.kai.inclass05.ui.AppDetailsFragment;
 import com.kai.inclass05.ui.CategoryListFragment;
 
 import java.util.Objects;
-
+/*
+* Assignment: InClass 05 Group
+* File: MainActivity
+* Name: Kailash Chivhe & Ankit Vaity
+* */
 public class MainActivity extends AppCompatActivity implements FragmentReplaceListener {
 
     FragmentManager mFragmentManager;
@@ -33,12 +37,12 @@ public class MainActivity extends AppCompatActivity implements FragmentReplaceLi
 
     private void setCategoryListFragment( Fragment fragment )
     {
-        mFragmentManager.beginTransaction().add( R.id.container, fragment, CategoryListFragment.TAG ).addToBackStack( CategoryListFragment.TAG).commit();
+        mFragmentManager.beginTransaction().replace( R.id.container, fragment, CategoryListFragment.TAG ).addToBackStack( CategoryListFragment.TAG).commit();
     }
 
     private void setAppDetailFragment( Fragment fragment )
     {
-        mFragmentManager.beginTransaction().add( R.id.container, fragment, AppDetailsFragment.TAG ).addToBackStack( AppDetailsFragment.TAG).commit();
+        mFragmentManager.beginTransaction().replace( R.id.container, fragment, AppDetailsFragment.TAG ).addToBackStack( AppDetailsFragment.TAG).commit();
     }
 
     @Override
