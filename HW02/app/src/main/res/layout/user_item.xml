@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/profile_imageView"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:layout_margin="8dp"
+        android:src="@drawable/avatar_male"/>
+
+    <TextView
+        android:id="@+id/name_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:textStyle="bold"
+        android:layout_toEndOf="@id/profile_imageView"/>
+
+    <TextView
+        android:id="@+id/state_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="8dp"
+        android:layout_below="@id/name_textView"
+        android:layout_toEndOf="@id/profile_imageView"/>
+
+    <TextView
+        android:id="@+id/age_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="8dp"
+        android:layout_below="@id/state_textView"
+        android:layout_toEndOf="@id/profile_imageView"/>
+
+    <TextView
+        android:id="@+id/desc_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="8dp"
+        android:layout_below="@id/age_textView"
+        android:layout_toEndOf="@id/profile_imageView"/>
+</RelativeLayout>

@@ -4,6 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+/*
+* Assignment: Homework 2
+* Name: Kailash Chivhe & Ankit Vaity
+* Filename: MainAcitivity
+* */
 public class MainActivity extends AppCompatActivity {
 
     @Override
