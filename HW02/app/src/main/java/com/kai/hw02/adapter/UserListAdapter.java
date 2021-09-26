@@ -51,6 +51,10 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
         return mList.size();
     }
 
+    public void refreshData(ArrayList<DataServices.User> userArrayList){
+        mList = userArrayList;
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView mName;
         private final TextView mState;

@@ -2,6 +2,7 @@ package com.kai.hw02.data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class DataServices {
     private static final ArrayList<User> users = new ArrayList<User>(){{
@@ -1021,7 +1022,135 @@ public class DataServices {
         return stateList;
     }
 
-    public static ArrayList<String> getSortList(){
+    public static ArrayList<User> getFilteredList(String state,
+                                                  boolean sortAgeAscEnabled,
+                                                  boolean sortNameAscEnabled,
+                                                  boolean sortStateAscEnabled,
+                                                  boolean sortAgeDscEnabled,
+                                                  boolean sortNameDscEnabled,
+                                                  boolean sortStateDscEnabled )
+    {
+        ArrayList<User> filteredList;
+        ArrayList<User> userArrayList = getAllUsers();
+        ArrayList<User> sortFilteredList = checkSortFlags( userArrayList, sortAgeAscEnabled, sortNameAscEnabled, sortStateAscEnabled, sortAgeDscEnabled, sortNameDscEnabled, sortStateDscEnabled );
+        if( !state.isEmpty() )
+        {
+            filteredList = getStateFiltered( sortFilteredList, state );
+        }
+        else{
+            filteredList = sortFilteredList;
+        }
+        return filteredList;
+    }
+
+    private static ArrayList<User> getStateFiltered( ArrayList<User> userArrayList, String state ) {
+        ArrayList<User> filteredList = new ArrayList<User>();
+        for( User user : userArrayList ){
+            if( user.state.contains(state) ){
+                filteredList.add( user );
+            }
+        }
+        return filteredList;
+    }
+
+
+    private static ArrayList<User> checkSortFlags( ArrayList<User> userArrayList,
+                                                  boolean sortAgeAscEnabled,
+                                                  boolean sortNameAscEnabled,
+                                                  boolean sortStateAscEnabled,
+                                                  boolean sortAgeDscEnabled,
+                                                  boolean sortNameDscEnabled,
+                                                  boolean sortStateDscEnabled )
+    {
+        ArrayList<User> sortedList = userArrayList;
+        if(sortAgeAscEnabled){
+            sortedList = getAgeAscSortedList( userArrayList );
+        }
+        else if(sortNameAscEnabled){
+            sortedList = getNameAscSortedList( userArrayList );
+        }
+        else if(sortStateAscEnabled){
+            sortedList = getStateAscSortedList( userArrayList );
+        }
+        else if(sortAgeDscEnabled){
+            sortedList = getAgeDscSortedList( userArrayList );
+        }
+        else if(sortNameDscEnabled){
+            sortedList = getNameDscSortedList( userArrayList );
+        }
+        else if(sortStateDscEnabled){
+            sortedList = getStateDscSortedList( userArrayList );
+        }
+        return sortedList;
+    }
+
+    public static ArrayList<User> getAgeAscSortedList( ArrayList<User> userArrayList )
+    {
+        userArrayList.sort(new Comparator<User>() {
+            @Override
+            public int compare(User o1, User o2) {
+                return Integer.compare( o1.age, o2.age );
+            }
+        });
+        return userArrayList;
+    }
+
+    public static ArrayList<User> getAgeDscSortedList( ArrayList<User> userArrayList )
+    {
+        userArrayList.sort(new Comparator<User>() {
+            @Override
+            public int compare(User o1, User o2) {
+                return Integer.compare( o2.age, o1.age );
+            }
+        });
+        return userArrayList;
+    }
+
+    public static ArrayList<User> getStateAscSortedList( ArrayList<User> userArrayList )
+    {
+        userArrayList.sort(new Comparator<User>() {
+            @Override
+            public int compare(User o1, User o2) {
+                return o1.state.compareTo( o2.state );
+            }
+        });
+        return userArrayList;
+    }
+
+    public static ArrayList<User> getStateDscSortedList( ArrayList<User> userArrayList )
+    {
+        userArrayList.sort(new Comparator<User>() {
+            @Override
+            public int compare(User o1, User o2) {
+                return o2.state.compareTo( o1.state );
+            }
+        });
+        return userArrayList;
+    }
+
+    public static ArrayList<User> getNameAscSortedList( ArrayList<User> userArrayList )
+    {
+        userArrayList.sort(new Comparator<User>() {
+            @Override
+            public int compare(User o1, User o2) {
+                return o1.name.compareTo( o2.name );
+            }
+        });
+        return userArrayList;
+    }
+
+    public static ArrayList<User> getNameDscSortedList( ArrayList<User> userArrayList )
+    {
+        userArrayList.sort(new Comparator<User>() {
+            @Override
+            public int compare(User o1, User o2) {
+                return o2.name.compareTo( o1.name );
+            }
+        });
+        return userArrayList;
+    }
+
+    public static ArrayList<String> getStaticSortList(){
         ArrayList<String> sortList = new ArrayList<>();
         sortList.add("Age");
         sortList.add("Name");

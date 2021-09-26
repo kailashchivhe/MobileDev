@@ -17,6 +17,7 @@ import com.kai.hw02.R;
 import com.kai.hw02.adapter.UserListAdapter;
 import com.kai.hw02.data.DataServices;
 import com.kai.hw02.databinding.FragmentUserBinding;
+import com.kai.hw02.listener.FragmentChangeListener;
 
 import java.util.ArrayList;
 
@@ -31,6 +32,8 @@ public class UserFragment extends Fragment {
 
     UserListAdapter mAdapter;
 
+    FragmentChangeListener mFragmentChangeListener;
+
     public static UserFragment newInstance( ArrayList<DataServices.User>  userArrayList ) {
         UserFragment fragment = new UserFragment();
         Bundle args = new Bundle();
@@ -42,8 +45,7 @@ public class UserFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        MainActivity mainActivity = (MainActivity) context;
-        mainActivity.setTitle( R.string.user_fragment_title );
+        mFragmentChangeListener = ( FragmentChangeListener ) context;
     }
 
     @Override
@@ -67,10 +69,11 @@ public class UserFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        mFragmentChangeListener.setTitle( getString( R.string.user_fragment_title ));
         mFragmentUserBinding.filterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                mFragmentChangeListener.launchFilterFragment();
             }
         });
 
@@ -80,5 +83,11 @@ public class UserFragment extends Fragment {
 
             }
         });
+    }
+
+    public void refreshList(ArrayList<DataServices.User> userArrayList ){
+        mUserList = userArrayList;
+        mAdapter.refreshData( mUserList );
+        mAdapter.notifyDataSetChanged();
     }
 }
