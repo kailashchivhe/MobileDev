@@ -67,6 +67,12 @@ public class SortFragment extends Fragment implements SortListClickListener {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        mFragmentChangeListener.setTitle( getString( R.string.sort ));
+    }
+
+    @Override
     public void onAscClick(int position) {
         switch (position){
             case 0:{
