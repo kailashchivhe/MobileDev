@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 
 import com.kai.hw02.R;
 import com.kai.hw02.adapter.SortListAdapter;
-import com.kai.hw02.adapter.UserListAdapter;
 import com.kai.hw02.databinding.FragmentSortBinding;
 import com.kai.hw02.listener.FragmentChangeListener;
 import com.kai.hw02.listener.SortListClickListener;
