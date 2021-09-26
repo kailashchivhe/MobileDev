@@ -1008,12 +1008,15 @@ public class DataServices {
         add(new User("Efren Sare",34,"Male","Friend","Massachusetts","MA"));
     }};
 
+    public static final String ALL_STATES_FILTER = "All States";
+
     public static ArrayList<User> getAllUsers(){
         return new ArrayList<>(users);
     }
 
     public static ArrayList<String> getUniqueStatesList(){
         ArrayList<String> stateList = new ArrayList<>();
+        stateList.add( ALL_STATES_FILTER );
         for(User user: getAllUsers()){
             if( !stateList.contains( user.state ) ){
                 stateList.add( user.state );
@@ -1045,10 +1048,15 @@ public class DataServices {
 
     private static ArrayList<User> getStateFiltered( ArrayList<User> userArrayList, String state ) {
         ArrayList<User> filteredList = new ArrayList<User>();
-        for( User user : userArrayList ){
-            if( user.state.contains(state) ){
-                filteredList.add( user );
+        if( !state.contains( ALL_STATES_FILTER ) ) {
+            for (User user : userArrayList) {
+                if (user.state.contains(state)) {
+                    filteredList.add(user);
+                }
             }
+        }
+        else{
+            filteredList = userArrayList;
         }
         return filteredList;
     }
@@ -1086,67 +1094,37 @@ public class DataServices {
 
     public static ArrayList<User> getAgeAscSortedList( ArrayList<User> userArrayList )
     {
-        userArrayList.sort(new Comparator<User>() {
-            @Override
-            public int compare(User o1, User o2) {
-                return Integer.compare( o1.age, o2.age );
-            }
-        });
+        userArrayList.sort((o1, o2) -> Integer.compare( o1.age, o2.age ));
         return userArrayList;
     }
 
     public static ArrayList<User> getAgeDscSortedList( ArrayList<User> userArrayList )
     {
-        userArrayList.sort(new Comparator<User>() {
-            @Override
-            public int compare(User o1, User o2) {
-                return Integer.compare( o2.age, o1.age );
-            }
-        });
+        userArrayList.sort((o1, o2) -> Integer.compare( o2.age, o1.age ));
         return userArrayList;
     }
 
     public static ArrayList<User> getStateAscSortedList( ArrayList<User> userArrayList )
     {
-        userArrayList.sort(new Comparator<User>() {
-            @Override
-            public int compare(User o1, User o2) {
-                return o1.state.compareTo( o2.state );
-            }
-        });
+        userArrayList.sort((o1, o2) -> o1.state.compareTo( o2.state ));
         return userArrayList;
     }
 
     public static ArrayList<User> getStateDscSortedList( ArrayList<User> userArrayList )
     {
-        userArrayList.sort(new Comparator<User>() {
-            @Override
-            public int compare(User o1, User o2) {
-                return o2.state.compareTo( o1.state );
-            }
-        });
+        userArrayList.sort((o1, o2) -> o2.state.compareTo( o1.state ));
         return userArrayList;
     }
 
     public static ArrayList<User> getNameAscSortedList( ArrayList<User> userArrayList )
     {
-        userArrayList.sort(new Comparator<User>() {
-            @Override
-            public int compare(User o1, User o2) {
-                return o1.name.compareTo( o2.name );
-            }
-        });
+        userArrayList.sort((o1, o2) -> o1.name.compareTo( o2.name ));
         return userArrayList;
     }
 
     public static ArrayList<User> getNameDscSortedList( ArrayList<User> userArrayList )
     {
-        userArrayList.sort(new Comparator<User>() {
-            @Override
-            public int compare(User o1, User o2) {
-                return o2.name.compareTo( o1.name );
-            }
-        });
+        userArrayList.sort((o1, o2) -> o2.name.compareTo( o1.name ));
         return userArrayList;
     }
 
