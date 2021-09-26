@@ -1,49 +1,43 @@
 package com.kai.hw02.ui;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.kai.hw02.R;
+import com.kai.hw02.adapter.SortListAdapter;
+import com.kai.hw02.adapter.UserListAdapter;
+import com.kai.hw02.databinding.FragmentSortBinding;
+import com.kai.hw02.listener.FragmentChangeListener;
+import com.kai.hw02.listener.SortListClickListener;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SortFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class SortFragment extends Fragment {
+import java.util.ArrayList;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
+public class SortFragment extends Fragment implements SortListClickListener {
+
+    public static final String TAG = "SortFragment";
     private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private ArrayList<String> mSortList;
 
-    public SortFragment() {
-        // Required empty public constructor
-    }
+    private FragmentSortBinding mFragmentSortBinding;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SortFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static SortFragment newInstance(String param1, String param2) {
+    private SortListAdapter mSortListAdapter;
+
+    private FragmentChangeListener mFragmentChangeListener;
+
+    public static SortFragment newInstance(ArrayList<String> list) {
         SortFragment fragment = new SortFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putSerializable(ARG_PARAM1, list);
         fragment.setArguments(args);
         return fragment;
     }
@@ -52,15 +46,59 @@ public class SortFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mSortList = (ArrayList<String>) getArguments().getSerializable(ARG_PARAM1);
         }
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        mFragmentChangeListener = ( FragmentChangeListener ) context;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sort, container, false);
+        mFragmentSortBinding = FragmentSortBinding.inflate( inflater, container, false );
+        mSortListAdapter = new SortListAdapter(mSortList, this );
+        mFragmentSortBinding.recyclerView.setLayoutManager( new LinearLayoutManager(getActivity()) );
+        mFragmentSortBinding.recyclerView.setAdapter(mSortListAdapter);
+        return mFragmentSortBinding.getRoot();
+    }
+
+    @Override
+    public void onAscClick(int position) {
+        switch (position){
+            case 0:{
+                mFragmentChangeListener.onSortClicked( true, false, false, false, false, false );
+                break;
+            }
+            case 1:{
+                mFragmentChangeListener.onSortClicked( false, true, false, false, false, false );
+                break;
+            }
+            case 2:{
+                mFragmentChangeListener.onSortClicked( false, false, true, false, false, false );
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void onDscClick(int position) {
+        switch (position){
+            case 0:{
+                mFragmentChangeListener.onSortClicked( false, false, false, true, false, false );
+                break;
+            }
+            case 1:{
+                mFragmentChangeListener.onSortClicked( false, false, false, false, true, false );
+                break;
+            }
+            case 2:{
+                mFragmentChangeListener.onSortClicked( false, false, false, false, false, true );
+                break;
+            }
+        }
     }
 }

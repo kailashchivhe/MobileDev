@@ -80,7 +80,7 @@ public class UserFragment extends Fragment {
         mFragmentUserBinding.sortButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                mFragmentChangeListener.launchSortFragment();
             }
         });
     }
