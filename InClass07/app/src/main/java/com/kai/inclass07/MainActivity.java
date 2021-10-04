@@ -6,7 +6,7 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.kai.inclass07.listeners.ContactListListener;
-import com.kai.inclass07.model.Contacts;
+import com.kai.inclass07.model.Contact;
 import com.kai.inclass07.sdk.DataService;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onSuccess(ArrayList<Contacts> contactList) {
+            public void onSuccess(ArrayList<Contact> contactList) {
                 Log.d("MainActivity", "onSuccess: " + contactList.toString() );
             }
         });

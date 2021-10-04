@@ -2,9 +2,9 @@ package com.kai.inclass07.model;
 
 import java.util.ArrayList;
 
-public class ContactResponse {
+public class ContactListResponse {
     String status;
-    ArrayList<Contacts> contacts;
+    ArrayList<Contact> contacts;
 
     public String getStatus() {
         return status;
@@ -14,11 +14,11 @@ public class ContactResponse {
         this.status = status;
     }
 
-    public ArrayList<Contacts> getContacts() {
+    public ArrayList<Contact> getContacts() {
         return contacts;
     }
 
-    public void setContacts(ArrayList<Contacts> contacts) {
+    public void setContacts(ArrayList<Contact> contacts) {
         this.contacts = contacts;
     }
 

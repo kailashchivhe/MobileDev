@@ -1,6 +1,6 @@
 package com.kai.inclass07.model;
 
-public class Contacts {
+public class Contact {
     int Cid;
     String Name;
     String Email;

@@ -4,8 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kai.inclass07.listeners.ContactListListener;
 import com.kai.inclass07.listeners.GenericRequestListener;
-import com.kai.inclass07.model.ContactResponse;
-import com.kai.inclass07.model.Contacts;
+import com.kai.inclass07.model.ContactListResponse;
+import com.kai.inclass07.model.Contact;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -36,6 +36,10 @@ public class DataService {
         });
     }
 
+    public static void createContact( Contact contact ){
+
+    }
+
 
     private static void getResponse(String url, GenericRequestListener genericRequestListener ){
         OkHttpClient client = new OkHttpClient();
@@ -63,10 +67,10 @@ public class DataService {
         });
     }
 
-    private static ArrayList<Contacts> getContactsJson( Reader reader )
+    private static ArrayList<Contact> getContactsJson(Reader reader )
     {
         Gson gson = new GsonBuilder().create();
-        ContactResponse contactResponse = gson.fromJson( reader, ContactResponse.class );
-        return contactResponse.getContacts();
+        ContactListResponse contactListResponse = gson.fromJson( reader, ContactListResponse.class );
+        return contactListResponse.getContacts();
     }
 }
