@@ -63,13 +63,8 @@ public class CitiesFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-//        getActivity().setTitle(R.string.cities);
+        getActivity().setTitle(R.string.cities);
 
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
-        ActionBar actionBar = activity.getSupportActionBar();
-        if(actionBar!=null) {
-            actionBar.setTitle(R.string.cities);
-        }
         adaptor =  new CityListAdaptor(getActivity(), R.layout.city_list_layout, cities);
         
         ListView cityListView = (ListView) fragmentCitiesBinding.cityListView;

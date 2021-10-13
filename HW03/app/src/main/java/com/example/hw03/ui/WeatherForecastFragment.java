@@ -110,12 +110,7 @@ public class WeatherForecastFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-//        getActivity().setTitle(R.string.weather_forecast);
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
-        ActionBar actionBar = activity.getSupportActionBar();
-        if(actionBar!=null) {
-            actionBar.setTitle(R.string.weather_forecast);
-        }
+        getActivity().setTitle(R.string.weather_forecast);
     }
 
     @Override

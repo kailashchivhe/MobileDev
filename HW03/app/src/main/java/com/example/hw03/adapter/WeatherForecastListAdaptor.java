@@ -37,9 +37,9 @@ public class WeatherForecastListAdaptor extends RecyclerView.Adapter<WeatherFore
     public void onBindViewHolder(@NonNull WeatherForecastListAdaptor.ViewHolder holder, int position) {
         Forecast forecast = list.get( position );
         holder.dateTextView.setText( forecast.dt_txt );
-        holder.temperatureTextView.setText( ""+forecast.main.temp + "F" );
-        holder.maxTemp.setText( "" + forecast.main.temp_max + "F" );
-        holder.minTemp.setText( "" + forecast.main.temp_min + "F" );
+        holder.temperatureTextView.setText( ""+DataServices.df2.format(DataServices.getFahrenheit(forecast.main.temp)) + "F" );
+        holder.maxTemp.setText( "" + DataServices.df2.format(DataServices.getFahrenheit(forecast.main.temp_max) )+ "F" );
+        holder.minTemp.setText( "" + DataServices.df2.format(DataServices.getFahrenheit(forecast.main.temp_min)) + "F" );
         holder.humidity.setText( "" + forecast.main.humidity );
         holder.description.setText( forecast.weather.get(0).description );
         Picasso.get().load( DataServices.getIconURL( forecast.weather.get(0).icon ) )

@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.util.ArrayList;
+import java.text.DecimalFormat;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -19,6 +19,10 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class DataServices {
+
+    public static DecimalFormat df1 = new DecimalFormat("#.#");
+    public static DecimalFormat df2 = new DecimalFormat("#.##");
+
     public static void getCurrentWeather(String cityName, WeatherForecastListener weatherForecastListener) {
         String url = "https://api.openweathermap.org/data/2.5/weather?q="+cityName+"&appid=3d4037b37b01c6173bd4b806e5d32f5c";
 
@@ -91,5 +95,9 @@ public class DataServices {
 
     public static String getIconURL(String icon){
         return "http://openweathermap.org/img/wn/"+icon+"@2x.png";
+    }
+
+    public static double getFahrenheit(double kelvin){
+        return ((kelvin-273.15) * ((double)9/5) + 32 );
     }
 }

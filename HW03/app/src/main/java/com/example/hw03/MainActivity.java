@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements FragmentChangeLis
 
     void setWeatherForecastFragment(Fragment fragment) {
         fragmentManager.beginTransaction()
-                .add( R.id.mainActivityContainer, fragment, WeatherForecastFragment.TAG )
+                .replace( R.id.mainActivityContainer, fragment, WeatherForecastFragment.TAG )
                 .addToBackStack(WeatherForecastFragment.TAG)
                 .commit();
     }

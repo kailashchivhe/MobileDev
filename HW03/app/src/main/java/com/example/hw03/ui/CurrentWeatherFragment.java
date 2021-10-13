@@ -62,22 +62,6 @@ public class CurrentWeatherFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             city = (Data.City) getArguments().getSerializable(ARG_PARAM);
-            DataServices.getCurrentWeather(city.getCity(), new WeatherForecastListener() {
-                @Override
-                public void onWeatherSuccess(WeatherContainer weatherContainer) {
-                    initView( weatherContainer );
-                }
-
-                @Override
-                public void onForecastSuccess(ForecastContainer forecastContainer) {
-                    //Do nothing
-                }
-
-                @Override
-                public void onFailure(String message) {
-                    showFailureMessage(message);
-                }
-            });
         }
     }
 
@@ -96,9 +80,9 @@ public class CurrentWeatherFragment extends Fragment {
         new Handler( Looper.getMainLooper()).post(() -> {
             fragmentCurrentWeatherBinding.cityNameTextView.setText( city.getCity() );
             fragmentCurrentWeatherBinding.descriptionTextView.setText( weatherContainer.weather.get(0).description);
-            fragmentCurrentWeatherBinding.temperatureTextView.setText( ""+ weatherContainer.main.temp + " F" );
-            fragmentCurrentWeatherBinding.temperatureMaxTextView.setText( ""+ weatherContainer.main.temp_max + " F" );
-            fragmentCurrentWeatherBinding.temperatureMinTextView.setText( ""+ weatherContainer.main.temp_min + " F" );
+            fragmentCurrentWeatherBinding.temperatureTextView.setText( ""+ DataServices.df1.format(DataServices.getFahrenheit(weatherContainer.main.temp ) ) + " F" );
+            fragmentCurrentWeatherBinding.temperatureMaxTextView.setText( ""+ DataServices.df1.format(DataServices.getFahrenheit(weatherContainer.main.temp_max)) + " F" );
+            fragmentCurrentWeatherBinding.temperatureMinTextView.setText( ""+ DataServices.df1.format(DataServices.getFahrenheit(weatherContainer.main.temp_min)) + " F" );
             fragmentCurrentWeatherBinding.humidityTextView.setText( ""+ weatherContainer.main.humidity + " %");
             fragmentCurrentWeatherBinding.windSpeedTextView.setText( ""+ weatherContainer.wind.speed + " miles/hr");
             fragmentCurrentWeatherBinding.windDegreeTextView.setText( ""+ weatherContainer.wind.deg + " degrees" );
@@ -119,12 +103,7 @@ public class CurrentWeatherFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-//        getActivity().setTitle(R.string.current_weather);
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
-        ActionBar actionBar = activity.getSupportActionBar();
-        if(actionBar!=null) {
-            actionBar.setTitle(R.string.current_weather);
-        }
+        getActivity().setTitle(R.string.current_weather);
         fragmentCurrentWeatherBinding.checkForecastButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -138,6 +117,22 @@ public class CurrentWeatherFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         fragmentCurrentWeatherBinding = FragmentCurrentWeatherBinding.inflate(inflater, container, false);
+        DataServices.getCurrentWeather(city.getCity(), new WeatherForecastListener() {
+            @Override
+            public void onWeatherSuccess(WeatherContainer weatherContainer) {
+                initView( weatherContainer );
+            }
+
+            @Override
+            public void onForecastSuccess(ForecastContainer forecastContainer) {
+                //Do nothing
+            }
+
+            @Override
+            public void onFailure(String message) {
+                showFailureMessage(message);
+            }
+        });
         return fragmentCurrentWeatherBinding.getRoot();
     }
 }
