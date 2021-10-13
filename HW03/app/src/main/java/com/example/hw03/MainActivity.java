@@ -12,6 +12,11 @@ import com.example.hw03.ui.CitiesFragment;
 import com.example.hw03.ui.CurrentWeatherFragment;
 import com.example.hw03.ui.WeatherForecastFragment;
 
+/*
+* Assignment: HW03
+* File Name: MainActivity
+* Name: Kailash Chivhe & Ankit Vaity
+* */
 public class MainActivity extends AppCompatActivity implements FragmentChangeListener {
 
     FragmentManager fragmentManager;
