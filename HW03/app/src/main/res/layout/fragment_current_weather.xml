@@ -12,13 +12,21 @@
         android:id="@+id/cityNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Charlotte, US"
         android:textColor="#222222"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/forecast_Image"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="@+id/cityNameTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cityNameTextView"
+        app:layout_constraintTop_toTopOf="@+id/cityNameTextView" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -35,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Temperature"
+            android:text="@string/temperature"
             android:textColor="#222222"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -45,7 +53,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="46.5 F"
             android:textAlignment="textEnd"
             android:textColor="#222222"
             android:textSize="18sp" />
@@ -66,7 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Temperature Max"
+            android:text="@string/temperature_max"
             android:textColor="#222222"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -76,7 +83,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="46.5 F"
             android:textAlignment="textEnd"
             android:textColor="#222222"
             android:textSize="18sp" />
@@ -97,7 +103,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Temperature Min"
+            android:text="@string/temperature_min"
             android:textColor="#222222"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -107,7 +113,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="46.5 F"
             android:textAlignment="textEnd"
             android:textColor="#222222"
             android:textSize="18sp" />
@@ -128,7 +133,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Description"
+            android:text="@string/description"
             android:textColor="#222222"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -138,7 +143,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Clear Sky"
             android:textAlignment="textEnd"
             android:textColor="#222222"
             android:textSize="18sp" />
@@ -159,7 +163,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Humidity"
+            android:text="@string/humidity"
             android:textColor="#222222"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -169,7 +173,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="31%"
             android:textAlignment="textEnd"
             android:textColor="#222222"
             android:textSize="18sp" />
@@ -190,7 +193,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Wind Speed"
+            android:text="@string/wind_speed"
             android:textColor="#222222"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -200,7 +203,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="5.95 miles/hr"
             android:textAlignment="textEnd"
             android:textColor="#222222"
             android:textSize="18sp" />
@@ -221,7 +223,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Wind Degree"
+            android:text="@string/wind_degree"
             android:textColor="#222222"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -231,7 +233,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="46.5 degrees"
             android:textAlignment="textEnd"
             android:textColor="#222222"
             android:textSize="18sp" />
@@ -252,7 +253,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Cloudiness"
+            android:text="@string/cloudiness"
             android:textColor="#222222"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -262,7 +263,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="1%"
             android:textAlignment="textEnd"
             android:textColor="#222222"
             android:textSize="18sp" />
@@ -272,7 +272,7 @@
         android:id="@+id/checkForecastButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Check Forecast"
+        android:text="@string/check_forecast"
         android:textAllCaps="false"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"

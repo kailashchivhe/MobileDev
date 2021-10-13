@@ -1,22 +1,35 @@
 package com.example.hw03.ui;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.hw03.MainActivity;
 import com.example.hw03.R;
 import com.example.hw03.data.Data;
+import com.example.hw03.data.DataServices;
+import com.example.hw03.data.WeatherContainer;
+import com.example.hw03.data.forecast.ForecastContainer;
 import com.example.hw03.databinding.FragmentCitiesBinding;
 import com.example.hw03.databinding.FragmentCurrentWeatherBinding;
 import com.example.hw03.listener.FragmentChangeListener;
+import com.example.hw03.listener.WeatherForecastListener;
+import com.squareup.picasso.Picasso;
 
 public class CurrentWeatherFragment extends Fragment {
 
@@ -29,6 +42,8 @@ public class CurrentWeatherFragment extends Fragment {
     private static final String ARG_PARAM = "param";
 
     private Data.City city;
+
+    private WeatherForecastListener weatherForecastListener;
 
     public CurrentWeatherFragment() {
         // Required empty public constructor
@@ -47,7 +62,52 @@ public class CurrentWeatherFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             city = (Data.City) getArguments().getSerializable(ARG_PARAM);
+            DataServices.getCurrentWeather(city.getCity(), new WeatherForecastListener() {
+                @Override
+                public void onWeatherSuccess(WeatherContainer weatherContainer) {
+                    initView( weatherContainer );
+                }
+
+                @Override
+                public void onForecastSuccess(ForecastContainer forecastContainer) {
+                    //Do nothing
+                }
+
+                @Override
+                public void onFailure(String message) {
+                    showFailureMessage(message);
+                }
+            });
         }
+    }
+
+    private void showFailureMessage(String message) {
+        new Handler( Looper.getMainLooper()).post(() -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder( getContext() );
+            builder.setTitle( R.string.failure );
+            builder.setMessage( message );
+            builder.setCancelable( true );
+            builder.show();
+        });
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void initView(WeatherContainer weatherContainer) {
+        new Handler( Looper.getMainLooper()).post(() -> {
+            fragmentCurrentWeatherBinding.cityNameTextView.setText( city.getCity() );
+            fragmentCurrentWeatherBinding.descriptionTextView.setText( weatherContainer.weather.get(0).description);
+            fragmentCurrentWeatherBinding.temperatureTextView.setText( ""+ weatherContainer.main.temp + " F" );
+            fragmentCurrentWeatherBinding.temperatureMaxTextView.setText( ""+ weatherContainer.main.temp_max + " F" );
+            fragmentCurrentWeatherBinding.temperatureMinTextView.setText( ""+ weatherContainer.main.temp_min + " F" );
+            fragmentCurrentWeatherBinding.humidityTextView.setText( ""+ weatherContainer.main.humidity + " %");
+            fragmentCurrentWeatherBinding.windSpeedTextView.setText( ""+ weatherContainer.wind.speed + " miles/hr");
+            fragmentCurrentWeatherBinding.windDegreeTextView.setText( ""+ weatherContainer.wind.deg + " degrees" );
+            fragmentCurrentWeatherBinding.cloudinessTextView.setText( ""+ weatherContainer.clouds.all + " %");
+            Picasso.get()
+                    .load( DataServices.getIconURL( weatherContainer.weather.get(0).icon ) )
+                    .placeholder( R.drawable.weather_placeholder )
+                    .into( fragmentCurrentWeatherBinding.forecastImage );
+        });
     }
 
     @Override
@@ -59,8 +119,12 @@ public class CurrentWeatherFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().setTitle("Current Weather");
-
+//        getActivity().setTitle(R.string.current_weather);
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        ActionBar actionBar = activity.getSupportActionBar();
+        if(actionBar!=null) {
+            actionBar.setTitle(R.string.current_weather);
+        }
         fragmentCurrentWeatherBinding.checkForecastButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,11 +134,10 @@ public class CurrentWeatherFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         fragmentCurrentWeatherBinding = FragmentCurrentWeatherBinding.inflate(inflater, container, false);
-
         return fragmentCurrentWeatherBinding.getRoot();
     }
 }

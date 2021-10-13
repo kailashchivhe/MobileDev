@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -61,8 +63,13 @@ public class CitiesFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().setTitle("Cities");
+//        getActivity().setTitle(R.string.cities);
 
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        ActionBar actionBar = activity.getSupportActionBar();
+        if(actionBar!=null) {
+            actionBar.setTitle(R.string.cities);
+        }
         adaptor =  new CityListAdaptor(getActivity(), R.layout.city_list_layout, cities);
         
         ListView cityListView = (ListView) fragmentCitiesBinding.cityListView;
@@ -77,7 +84,7 @@ public class CitiesFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         fragmentCitiesBinding = FragmentCitiesBinding.inflate(inflater, container, false);
