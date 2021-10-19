@@ -1,47 +1,66 @@
 package com.kai.midterm.ui;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.kai.midterm.MainActivity;
 import com.kai.midterm.R;
+import com.kai.midterm.adapter.HRecyclerViewAdaptor;
+import com.kai.midterm.adapter.RecyclerViewAdaptor;
+import com.kai.midterm.data.DataService;
+import com.kai.midterm.data.Post;
+import com.kai.midterm.data.PostContainer;
+import com.kai.midterm.data.User;
+import com.kai.midterm.databinding.FragmentNewAccountBinding;
+import com.kai.midterm.databinding.FragmentPostsBinding;
+import com.kai.midterm.listener.FragmentChangeListener;
+import com.kai.midterm.listener.PostUIListener;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link PostsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class PostsFragment extends Fragment {
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
+public class PostsFragment extends Fragment implements PostUIListener {
+
+    public static final String TAG = "PostsFragment";
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private PostContainer postContainer;
+    private User user;
+    private ArrayList<Integer> pageList = new ArrayList<>();
 
-    public PostsFragment() {
-        // Required empty public constructor
+    FragmentPostsBinding fragmentPostsBinding;
+
+    public FragmentChangeListener fragmentChangeListener;
+
+    RecyclerViewAdaptor recyclerViewAdaptor;
+
+    HRecyclerViewAdaptor hRecyclerViewAdaptor;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        fragmentChangeListener = (MainActivity) context;
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment PostsFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static PostsFragment newInstance(String param1, String param2) {
+    public static PostsFragment newInstance(PostContainer postContainer, User user) {
         PostsFragment fragment = new PostsFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putSerializable(ARG_PARAM1, postContainer);
+        args.putSerializable(ARG_PARAM2, user);
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,15 +69,92 @@ public class PostsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            postContainer = (PostContainer) getArguments().getSerializable(ARG_PARAM1);
+            user = (User) getArguments().getSerializable(ARG_PARAM2);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_posts, container, false);
+        fragmentPostsBinding = FragmentPostsBinding.inflate( inflater, container, false );
+        return fragmentPostsBinding.getRoot();
+    }
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        getActivity().setTitle(R.string.posts_title);
+
+        int pageCount = (int) Math.floor( postContainer.totalCount/postContainer.pageSize );
+        createPageList( pageCount );
+
+        recyclerViewAdaptor = new RecyclerViewAdaptor( postContainer.posts, user, this );
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        fragmentPostsBinding.postRecylerView.setLayoutManager( linearLayoutManager );
+        fragmentPostsBinding.postRecylerView.setAdapter(recyclerViewAdaptor);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(fragmentPostsBinding.postRecylerView.getContext(), linearLayoutManager.getOrientation());
+        fragmentPostsBinding.postRecylerView.addItemDecoration(dividerItemDecoration);
+
+        fragmentPostsBinding.userTextView.setText( "Welcome "+ user.user_fullname );
+        fragmentPostsBinding.pageLimitTextView.setText( "Showing Page " + postContainer.page + " out of " + new DecimalFormat("#").format(
+        Math.floor( postContainer.totalCount/postContainer.pageSize ) ) );
+
+        fragmentPostsBinding.createPostButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fragmentChangeListener.navigateToCreatePosts(user);
+            }
+        });
+
+        fragmentPostsBinding.logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fragmentChangeListener.onLogoutClicked();
+            }
+        });
+    }
+
+    private void createPageList(int pageCount) {
+        for( int i = 1;i<pageCount;i++){
+            pageList.add( i );
+        }
+        hRecyclerViewAdaptor = new HRecyclerViewAdaptor( pageList, user, this );
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false );
+        fragmentPostsBinding.pageRecyclerView.setLayoutManager( linearLayoutManager );
+        fragmentPostsBinding.pageRecyclerView.setAdapter(hRecyclerViewAdaptor);
+    }
+
+    @Override
+    public void onPostsSuccess(PostContainer newPostContainer) {
+        new Handler( Looper.getMainLooper()).post(() -> {
+            postContainer = newPostContainer;
+            recyclerViewAdaptor.refreshData( newPostContainer.posts );
+            fragmentPostsBinding.pageLimitTextView.setText( "Showing Page " + newPostContainer.page + " out of " + new DecimalFormat("#").format(
+                    Math.floor( postContainer.totalCount/postContainer.pageSize ) ) );
+            recyclerViewAdaptor.notifyDataSetChanged();
+        });
+    }
+
+    @Override
+    public void onPostFailure(String message) {
+        //Nothing
+    }
+
+    @Override
+    public void onDeleteClicked(Post post, User user) {
+        DataService.deletePost( user, post.post_id, this );
+    }
+
+    @Override
+    public void onPageButtonClicked(int page, User user) {
+        DataService.getPosts( user, page, this );
+    }
+
+    @Override
+    public void onDeleteSuccess() {
+        DataService.getPosts( user, 1, this );
     }
 }

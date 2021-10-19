@@ -112,7 +112,7 @@ public class DataService {
         });
     }
 
-    public static void deletePost( User user, String id ){
+    public static void deletePost( User user, String id, PostUIListener postUIListener ){
         String url = "https://www.theappsdr.com/posts/delete";
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         JSONObject jsonObject = new JSONObject();
@@ -126,10 +126,12 @@ public class DataService {
         getPostResponse(url, user, body, new GenericRequestListener() {
             @Override
             public void onFailure(String message) {
+                postUIListener.onPostFailure( message );
             }
 
             @Override
             public void onSuccess(Reader reader) {
+                postUIListener.onDeleteSuccess();
             }
         });
     }

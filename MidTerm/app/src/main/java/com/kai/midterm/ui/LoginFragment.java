@@ -17,9 +17,12 @@ import com.kai.midterm.MainActivity;
 import com.kai.midterm.R;
 import com.kai.midterm.data.DataService;
 import com.kai.midterm.data.Login;
+import com.kai.midterm.data.Post;
+import com.kai.midterm.data.PostContainer;
 import com.kai.midterm.data.User;
 import com.kai.midterm.databinding.FragmentLoginBinding;
 import com.kai.midterm.listener.FragmentChangeListener;
+import com.kai.midterm.listener.PostUIListener;
 import com.kai.midterm.listener.UIListener;
 
 public class LoginFragment extends Fragment {
@@ -99,8 +102,37 @@ public class LoginFragment extends Fragment {
     }
 
     private void onLoginUISuccess( User user ){
+        DataService.getPosts(user, 1, new PostUIListener() {
+            @Override
+            public void onPostsSuccess(PostContainer postContainer) {
+                navigateToPosts( postContainer, user );
+            }
+
+            @Override
+            public void onPostFailure(String message) {
+                showFailureMessage( message );
+            }
+
+            @Override
+            public void onDeleteClicked(Post post, User user) {
+
+            }
+
+            @Override
+            public void onPageButtonClicked(int page, User user) {
+
+            }
+
+            @Override
+            public void onDeleteSuccess() {
+
+            }
+        });
+    }
+
+    private void navigateToPosts(PostContainer postContainer, User user ){
         new Handler( Looper.getMainLooper()).post(() -> {
-           //TODO
+            fragmentChangeListener.navigateToPostFragment( postContainer, user );
         });
     }
 }
