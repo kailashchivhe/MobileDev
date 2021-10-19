@@ -16,6 +16,10 @@ import com.kai.midterm.ui.PostsFragment;
 
 import java.util.Objects;
 
+/*
+* Name: Kailash Chivhe
+* Mid-Term
+* */
 public class MainActivity extends AppCompatActivity implements FragmentChangeListener {
 
     FragmentManager fragmentManager;
