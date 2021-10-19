@@ -10,4 +10,5 @@ public interface PostUIListener {
     void onDeleteClicked(Post post, User user);
     void onPageButtonClicked( int page, User user );
     void onDeleteSuccess();
+    void onCreateSuccess();
 }

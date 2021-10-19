@@ -90,7 +90,7 @@ public class DataService {
         });
     }
 
-    public static void createPost(User user, String data ){
+    public static void createPost(User user, String data, PostUIListener postUIListener ){
         String url = "https://www.theappsdr.com/posts/create";
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         JSONObject jsonObject = new JSONObject();
@@ -104,10 +104,12 @@ public class DataService {
         getPostResponse(url, user, body, new GenericRequestListener() {
             @Override
             public void onFailure(String message) {
+                postUIListener.onPostFailure( message );
             }
 
             @Override
             public void onSuccess(Reader reader) {
+                postUIListener.onCreateSuccess();
             }
         });
     }

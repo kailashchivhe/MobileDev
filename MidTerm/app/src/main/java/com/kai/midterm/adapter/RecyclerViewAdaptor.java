@@ -46,7 +46,7 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
         holder.dateTextView.setText( post.created_at );
         holder.headerTextView.setText( post.post_text );
         holder.userTextView.setText( post.created_by_name );
-        if( post.created_by_uid.compareTo( ""+user.user_id ) == 0 ){
+        if( post.created_by_uid.compareTo( Integer.toString(user.user_id) ) == 0 ){
             holder.imageView.setVisibility( View.VISIBLE );
             holder.imageView.setOnClickListener(new View.OnClickListener() {
                 @Override

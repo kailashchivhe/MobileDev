@@ -135,6 +135,11 @@ public class NewAccountFragment extends Fragment {
             public void onDeleteSuccess() {
 
             }
+
+            @Override
+            public void onCreateSuccess() {
+
+            }
         });
     }
 

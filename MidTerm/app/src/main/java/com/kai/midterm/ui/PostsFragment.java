@@ -1,6 +1,7 @@
 package com.kai.midterm.ui;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -118,7 +119,7 @@ public class PostsFragment extends Fragment implements PostUIListener {
     }
 
     private void createPageList(int pageCount) {
-        for( int i = 1;i<pageCount;i++){
+        for( int i = 1;i<=pageCount;i++){
             pageList.add( i );
         }
         hRecyclerViewAdaptor = new HRecyclerViewAdaptor( pageList, user, this );
@@ -127,6 +128,7 @@ public class PostsFragment extends Fragment implements PostUIListener {
         fragmentPostsBinding.pageRecyclerView.setAdapter(hRecyclerViewAdaptor);
     }
 
+    @SuppressLint({"SetTextI18n", "NotifyDataSetChanged"})
     @Override
     public void onPostsSuccess(PostContainer newPostContainer) {
         new Handler( Looper.getMainLooper()).post(() -> {
@@ -140,7 +142,13 @@ public class PostsFragment extends Fragment implements PostUIListener {
 
     @Override
     public void onPostFailure(String message) {
-        //Nothing
+        new Handler( Looper.getMainLooper()).post(() -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder( getContext() );
+            builder.setTitle( R.string.failure );
+            builder.setMessage( message );
+            builder.setCancelable( true );
+            builder.show();
+        });
     }
 
     @Override
@@ -156,5 +164,15 @@ public class PostsFragment extends Fragment implements PostUIListener {
     @Override
     public void onDeleteSuccess() {
         DataService.getPosts( user, 1, this );
+    }
+
+    @Override
+    public void onCreateSuccess() {
+
+    }
+
+    public void refreshData(PostContainer postContainer, User user) {
+        this.user = user;
+        onPostsSuccess( postContainer );
     }
 }

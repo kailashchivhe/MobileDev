@@ -9,6 +9,7 @@ import android.os.Bundle;
 import com.kai.midterm.data.PostContainer;
 import com.kai.midterm.data.User;
 import com.kai.midterm.listener.FragmentChangeListener;
+import com.kai.midterm.ui.CreatePostFragment;
 import com.kai.midterm.ui.LoginFragment;
 import com.kai.midterm.ui.NewAccountFragment;
 import com.kai.midterm.ui.PostsFragment;
@@ -47,9 +48,9 @@ public class MainActivity extends AppCompatActivity implements FragmentChangeLis
         fragmentManager.beginTransaction().replace( R.id.container, fragment, PostsFragment.TAG ).addToBackStack( PostsFragment.TAG ).commit();
     }
 
-    @Override
-    public void onLoginButtonClicked() {
-        //TODO: show Posts
+    private void setCreatePostFragment( Fragment fragment )
+    {
+        fragmentManager.beginTransaction().replace( R.id.container, fragment, CreatePostFragment.TAG ).addToBackStack( CreatePostFragment.TAG ).commit();
     }
 
     @Override
@@ -74,7 +75,20 @@ public class MainActivity extends AppCompatActivity implements FragmentChangeLis
 
     @Override
     public void navigateToCreatePosts(User user) {
+        setCreatePostFragment( CreatePostFragment.newInstance( user) );
+    }
 
+    @Override
+    public void afterCreateSuccess(PostContainer postContainer, User user) {
+        PostsFragment postsFragment = (PostsFragment) fragmentManager.findFragmentByTag( PostsFragment.TAG );
+        if( postsFragment != null )
+        {
+            fragmentManager.popBackStack();
+            postsFragment.refreshData( postContainer, user );
+        }
+        else {
+            navigateToPostFragment(postContainer, user);
+        }
     }
 
     @Override

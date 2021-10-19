@@ -1,43 +1,53 @@
 package com.kai.midterm.ui;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.kai.midterm.MainActivity;
 import com.kai.midterm.R;
+import com.kai.midterm.data.DataService;
+import com.kai.midterm.data.Post;
+import com.kai.midterm.data.PostContainer;
+import com.kai.midterm.data.User;
 import com.kai.midterm.databinding.FragmentCreatePostBinding;
+import com.kai.midterm.listener.FragmentChangeListener;
+import com.kai.midterm.listener.PostUIListener;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link CreatePostFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class CreatePostFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    public static final String TAG = "CreatePostFragment";
     private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private User user;
 
     FragmentCreatePostBinding fragmentCreatePostBinding;
+
+    public FragmentChangeListener fragmentChangeListener;
 
     public CreatePostFragment() {
         // Required empty public constructor
     }
 
-    public static CreatePostFragment newInstance(String param1, String param2) {
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        fragmentChangeListener = (MainActivity) context;
+    }
+
+    public static CreatePostFragment newInstance(User user) {
         CreatePostFragment fragment = new CreatePostFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putSerializable(ARG_PARAM1, user);
         fragment.setArguments(args);
         return fragment;
     }
@@ -46,8 +56,7 @@ public class CreatePostFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            user = (User) getArguments().getSerializable(ARG_PARAM1);
         }
     }
 
@@ -56,5 +65,92 @@ public class CreatePostFragment extends Fragment {
                              Bundle savedInstanceState) {
         fragmentCreatePostBinding = FragmentCreatePostBinding.inflate( inflater, container, false );
         return fragmentCreatePostBinding.getRoot();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle(R.string.create_posts_title);
+        fragmentCreatePostBinding.submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DataService.createPost(user, fragmentCreatePostBinding.editTextPost.getText().toString(), new PostUIListener() {
+                    @Override
+                    public void onPostsSuccess(PostContainer postContainer) {
+
+                    }
+
+                    @Override
+                    public void onPostFailure(String message) {
+                        new Handler( Looper.getMainLooper()).post(() -> {
+                            AlertDialog.Builder builder = new AlertDialog.Builder( getContext() );
+                            builder.setTitle( R.string.failure );
+                            builder.setMessage( message );
+                            builder.setCancelable( true );
+                            builder.show();
+                        });
+                    }
+
+                    @Override
+                    public void onDeleteClicked(Post post, User user) {
+
+                    }
+
+                    @Override
+                    public void onPageButtonClicked(int page, User user) {
+
+                    }
+
+                    @Override
+                    public void onDeleteSuccess() {
+
+                    }
+
+                    @Override
+                    public void onCreateSuccess() {
+                        DataService.getPosts(user, 1, new PostUIListener() {
+                            @Override
+                            public void onPostsSuccess(PostContainer postContainer) {
+                                new Handler( Looper.getMainLooper()).post(() -> {
+                                    fragmentChangeListener.afterCreateSuccess(postContainer, user);
+                                });
+                            }
+
+                            @Override
+                            public void onPostFailure(String message) {
+
+                            }
+
+                            @Override
+                            public void onDeleteClicked(Post post, User user) {
+
+                            }
+
+                            @Override
+                            public void onPageButtonClicked(int page, User user) {
+
+                            }
+
+                            @Override
+                            public void onDeleteSuccess() {
+
+                            }
+
+                            @Override
+                            public void onCreateSuccess() {
+
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        fragmentCreatePostBinding.cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fragmentChangeListener.onCancelButtonClicked();
+            }
+        });
     }
 }

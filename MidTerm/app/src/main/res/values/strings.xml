@@ -15,4 +15,6 @@
     <string name="logout">Logout</string>
     <string name="create_post">Create Post</string>
     <string name="posts_title">Posts</string>
+    <string name="enter_post">Enter Post</string>
+    <string name="create_posts_title">Create Post</string>
 </resources>
