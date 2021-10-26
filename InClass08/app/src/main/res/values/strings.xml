@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">InClass08</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="login">Login</string>
+    <string name="create_new_account">Create New Account</string>
+    <string name="name">Name</string>
+    <string name="submit">Submit</string>
+    <string name="cancel">Cancel</string>
+    <string name="failure">Failure</string>
+    <string name="login_title">Login</string>
+    <string name="create_new_account_title">Create New Account</string>
+    <string name="logout">Logout</string>
+    <string name="create_post">Create Post</string>
+    <string name="posts_title">Posts</string>
+    <string name="enter_post">Enter Post</string>
+    <string name="create_posts_title">Create Post</string>
 </resources>
