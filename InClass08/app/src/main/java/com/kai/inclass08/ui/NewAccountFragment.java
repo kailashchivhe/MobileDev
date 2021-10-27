@@ -12,7 +12,9 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.kai.inclass08.MainActivity;
 import com.kai.inclass08.databinding.FragmentNewAccountBinding;
+import com.kai.inclass08.listener.FragmentChangeListener;
 
 
 public class NewAccountFragment extends Fragment {
@@ -22,13 +24,13 @@ public class NewAccountFragment extends Fragment {
 
     FragmentNewAccountBinding fragmentNewAccountBinding;
 
-//    public FragmentChangeListener fragmentChangeListener;
+    public FragmentChangeListener fragmentChangeListener;
 
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-//        fragmentChangeListener = (MainActivity) context;
+        fragmentChangeListener = (MainActivity) context;
     }
 
     public NewAccountFragment() {

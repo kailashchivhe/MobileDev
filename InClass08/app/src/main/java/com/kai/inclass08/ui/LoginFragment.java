@@ -12,22 +12,24 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.kai.inclass08.MainActivity;
 import com.kai.inclass08.R;
 import com.kai.inclass08.databinding.FragmentLoginBinding;
+import com.kai.inclass08.listener.FragmentChangeListener;
 
 public class LoginFragment extends Fragment {
 
     public static final String TAG = "LoginFragment";
 
     FragmentLoginBinding fragmentLoginBinding;
-//
-//    public FragmentChangeListener fragmentChangeListener;
+
+    public FragmentChangeListener fragmentChangeListener;
 
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-//        fragmentChangeListener = (MainActivity) context;
+        fragmentChangeListener = (MainActivity) context;
     }
 
     public static LoginFragment newInstance() {
