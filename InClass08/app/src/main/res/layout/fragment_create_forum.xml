@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.CreatePostFragment">
+    tools:context=".ui.CreateForumFragment">
 
     <TableLayout
         android:id="@+id/tableLayout"
@@ -24,14 +24,27 @@
             android:paddingBottom="25dp">
 
             <EditText
-                android:id="@+id/editTextPost"
+                android:id="@+id/editTextForum"
                 android:layout_width="324dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="@string/enter_post"
+                android:hint="@string/enter_forum_title"
                 android:textSize="18sp" />
         </TableRow>
 
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="25dp">
+
+            <EditText
+                android:id="@+id/editTextForumDesc"
+                android:layout_width="324dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/enter_forum_desc"
+                android:textSize="18sp" />
+        </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
