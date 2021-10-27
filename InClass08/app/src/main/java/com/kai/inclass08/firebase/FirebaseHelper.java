@@ -33,6 +33,10 @@ public class FirebaseHelper {
         return firebaseAuth.getCurrentUser();
     }
 
+    public static String getCurrentUserId(){
+        return firebaseAuth.getCurrentUser().getUid();
+    }
+
     public static void create(String email, String password, String name ){
         firebaseAuth.createUserWithEmailAndPassword( email, password ).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
