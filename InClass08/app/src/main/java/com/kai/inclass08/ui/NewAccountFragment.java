@@ -13,11 +13,14 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.kai.inclass08.MainActivity;
+import com.kai.inclass08.R;
 import com.kai.inclass08.databinding.FragmentNewAccountBinding;
+import com.kai.inclass08.firebase.FirebaseHelper;
 import com.kai.inclass08.listener.FragmentChangeListener;
+import com.kai.inclass08.listener.RegisterListener;
 
 
-public class NewAccountFragment extends Fragment {
+public class NewAccountFragment extends Fragment implements RegisterListener {
 
     public static final String TAG = "NewAccountFragment";
 
@@ -49,95 +52,46 @@ public class NewAccountFragment extends Fragment {
         return fragmentNewAccountBinding.getRoot();
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        getActivity().setTitle(R.string.create_new_account_title);
-//        fragmentNewAccountBinding.cancelButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                fragmentChangeListener.onCancelButtonClicked();
-//            }
-//        });
-//
-//        fragmentNewAccountBinding.submitButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                NewUser newUser = new NewUser( fragmentNewAccountBinding.editTextEmail.getText().toString(),
-//                        fragmentNewAccountBinding.editTextPassword.getText().toString(),
-//                        fragmentNewAccountBinding.editTextName.getText().toString() );
-//                DataService.createAccount(newUser, new UIListener() {
-//                    @Override
-//                    public void onLoginFailure(String message) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onLoginSuccess(User user) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onCreateFailure(String message) {
-//                        showFailureMessage( message );
-//                    }
-//
-//                    @Override
-//                    public void onCreateSuccess(User userFromJson) {
-//                        onCreateUISuccess( userFromJson );
-//                    }
-//                });
-//            }
-//        });
-//    }
-//
-//    private void showFailureMessage(String message) {
-//        new Handler( Looper.getMainLooper()).post(() -> {
-//            AlertDialog.Builder builder = new AlertDialog.Builder( getContext() );
-//            builder.setTitle( R.string.failure );
-//            builder.setMessage( message );
-//            builder.setCancelable( true );
-//            builder.show();
-//        });
-//    }
-//
-//    private void onCreateUISuccess( User user ){
-//        DataService.getPosts(user, 1, new PostUIListener() {
-//            @Override
-//            public void onPostsSuccess(PostContainer postContainer) {
-//                navigateToPosts( postContainer, user );
-//            }
-//
-//            @Override
-//            public void onPostFailure(String message) {
-//                showFailureMessage( message );
-//            }
-//
-//            @Override
-//            public void onDeleteClicked(Post post, User user) {
-//
-//            }
-//
-//            @Override
-//            public void onPageButtonClicked(int page, User user) {
-//
-//            }
-//
-//            @Override
-//            public void onDeleteSuccess() {
-//
-//            }
-//
-//            @Override
-//            public void onCreateSuccess() {
-//
-//            }
-//        });
-//    }
-//
-//    private void navigateToPosts(PostContainer postContainer, User user ){
-//        new Handler( Looper.getMainLooper()).post(() -> {
-//            fragmentChangeListener.navigateToPostFragment( postContainer, user );
-//        });
-//    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle(R.string.create_new_account_title);
+        fragmentNewAccountBinding.cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fragmentChangeListener.onRegisterCancelClicked();
+            }
+        });
+
+        fragmentNewAccountBinding.submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onSubmitClicked();
+            }
+        });
+    }
+
+    private void onSubmitClicked() {
+        FirebaseHelper.create( fragmentNewAccountBinding.editTextEmail.getText().toString(), fragmentNewAccountBinding.editTextPassword.getText().toString(), fragmentNewAccountBinding.editTextName.getText().toString(), this );
+    }
+
+    private void showFailureMessage(String message) {
+        new Handler( Looper.getMainLooper()).post(() -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder( getContext() );
+            builder.setTitle( R.string.failure );
+            builder.setMessage( message );
+            builder.setCancelable( true );
+            builder.show();
+        });
+    }
+
+    @Override
+    public void onSuccess() {
+
+    }
+
+    @Override
+    public void onFailure(String message) {
+        showFailureMessage( message );
+    }
 }

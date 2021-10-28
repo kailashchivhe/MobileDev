@@ -15,9 +15,11 @@ import androidx.fragment.app.Fragment;
 import com.kai.inclass08.MainActivity;
 import com.kai.inclass08.R;
 import com.kai.inclass08.databinding.FragmentLoginBinding;
+import com.kai.inclass08.firebase.FirebaseHelper;
 import com.kai.inclass08.listener.FragmentChangeListener;
+import com.kai.inclass08.listener.LoginListener;
 
-public class LoginFragment extends Fragment {
+public class LoginFragment extends Fragment implements LoginListener {
 
     public static final String TAG = "LoginFragment";
 
@@ -47,40 +49,23 @@ public class LoginFragment extends Fragment {
     public void onResume() {
         super.onResume();
         getActivity().setTitle(R.string.login_title);
-//        fragmentLoginBinding.createButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                fragmentChangeListener.onCreateButtonClicked();
-//            }
-//        });
-//
-//        fragmentLoginBinding.loginButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Login login = new Login( fragmentLoginBinding.editTextEmail.getText().toString(), fragmentLoginBinding.editTextTextPassword.getText().toString() );
-//                DataService.login(login, new UIListener() {
-//                    @Override
-//                    public void onLoginFailure(String message) {
-//                        showFailureMessage( message );
-//                    }
-//
-//                    @Override
-//                    public void onLoginSuccess(User user) {
-//                        onLoginUISuccess( user );
-//                    }
-//
-//                    @Override
-//                    public void onCreateFailure(String message) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onCreateSuccess(User userFromJson) {
-//
-//                    }
-//                });
-//            }
-//        });
+        fragmentLoginBinding.createButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onCreateClicked();
+            }
+        });
+
+        fragmentLoginBinding.loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onLoginClicked();
+            }
+        });
+    }
+
+    private void onCreateClicked() {
+        fragmentChangeListener.navigateToRegisterFragment();
     }
 
     private void showFailureMessage(String message) {
@@ -93,43 +78,17 @@ public class LoginFragment extends Fragment {
         });
     }
 
-//    private void onLoginUISuccess( User user ){
-//        DataService.getPosts(user, 1, new PostUIListener() {
-//            @Override
-//            public void onPostsSuccess(PostContainer postContainer) {
-//                navigateToPosts( postContainer, user );
-//            }
-//
-//            @Override
-//            public void onPostFailure(String message) {
-//                showFailureMessage( message );
-//            }
-//
-//            @Override
-//            public void onDeleteClicked(Post post, User user) {
-//
-//            }
-//
-//            @Override
-//            public void onPageButtonClicked(int page, User user) {
-//
-//            }
-//
-//            @Override
-//            public void onDeleteSuccess() {
-//
-//            }
-//
-//            @Override
-//            public void onCreateSuccess() {
-//
-//            }
-//        });
-//    }
-//
-//    private void navigateToPosts(PostContainer postContainer, User user ){
-//        new Handler( Looper.getMainLooper()).post(() -> {
-//            fragmentChangeListener.navigateToPostFragment( postContainer, user );
-//        });
-//    }
+    void onLoginClicked(){
+        FirebaseHelper.login( fragmentLoginBinding.editTextEmail.getText().toString(), fragmentLoginBinding.editTextTextPassword.getText().toString(), this );
+    }
+
+    @Override
+    public void onSuccess() {
+        fragmentChangeListener.navigateToForums();
+    }
+
+    @Override
+    public void onFailure(String message) {
+        showFailureMessage( message );
+    }
 }

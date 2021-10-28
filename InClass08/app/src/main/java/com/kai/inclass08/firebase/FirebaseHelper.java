@@ -1,5 +1,7 @@
 package com.kai.inclass08.firebase;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -14,6 +16,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.kai.inclass08.listener.LoginListener;
+import com.kai.inclass08.listener.RegisterListener;
 import com.kai.inclass08.model.Forum;
 
 import java.util.ArrayList;
@@ -37,7 +41,7 @@ public class FirebaseHelper {
         return firebaseAuth.getCurrentUser().getUid();
     }
 
-    public static void create(String email, String password, String name ){
+    public static void create(String email, String password, String name, RegisterListener registerListener ){
         firebaseAuth.createUserWithEmailAndPassword( email, password ).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 // Sign in success, update UI with the signed-in user's information
@@ -46,22 +50,22 @@ public class FirebaseHelper {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
-
+                            registerListener.onSuccess();
                         }
                     }
                 });
             } else {
-                // If sign in fails, display a message to the user.
+                registerListener.onFailure( task.getException().getMessage() );
             }
         });
     }
 
-    public static void login(String email, String password){
+    public static void login(String email, String password, LoginListener loginListener ){
         firebaseAuth.signInWithEmailAndPassword( email, password ).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                // Sign in success, update UI with the signed-in user's information
+                loginListener.onSuccess();
             } else {
-                // If sign in fails, display a message to the user.
+                loginListener.onFailure( task.getException().getMessage() );
             }
         });
     }

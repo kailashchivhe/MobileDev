@@ -38,4 +38,19 @@ public class MainActivity extends AppCompatActivity implements FragmentChangeLis
     {
         fragmentManager.beginTransaction().replace( R.id.container, fragment, NewAccountFragment.TAG ).addToBackStack( NewAccountFragment.TAG ).commit();
     }
+
+    @Override
+    public void onRegisterCancelClicked() {
+        fragmentManager.popBackStack();
+    }
+
+    @Override
+    public void navigateToRegisterFragment() {
+        setRegisterFragment( NewAccountFragment.newInstance() );
+    }
+
+    @Override
+    public void navigateToForums() {
+
+    }
 }
