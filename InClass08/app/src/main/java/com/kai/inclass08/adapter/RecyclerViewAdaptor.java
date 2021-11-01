@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.kai.inclass08.R;
+import com.kai.inclass08.firebase.FirebaseHelper;
 import com.kai.inclass08.listener.RecyclerListener;
 import com.kai.inclass08.model.Forum;
 
@@ -42,16 +43,20 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.setIsRecyclable( false );
         Forum forum = list.get( position );
         holder.dateTextView.setText( forum.getDate() );
         holder.headerTextView.setText( forum.getTitle() );
         holder.userTextView.setText( forum.getSubTitle() );
-        if( forum.getUserId().compareTo( user.getUid() ) == 0 ){
+        if( user == null ){
+            user = FirebaseHelper.getUser();
+        }
+        if( user != null && forum.getUserId().compareTo( user.getUid() ) == 0 ){
             holder.imageView.setVisibility( View.VISIBLE );
             holder.imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    recyclerListener.onDeleteClicked( forum );
                 }
             });
         }

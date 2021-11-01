@@ -72,7 +72,9 @@ public class NewAccountFragment extends Fragment implements RegisterListener {
     }
 
     private void onSubmitClicked() {
-        FirebaseHelper.create( fragmentNewAccountBinding.editTextEmail.getText().toString(), fragmentNewAccountBinding.editTextPassword.getText().toString(), fragmentNewAccountBinding.editTextName.getText().toString(), this );
+        if( !fragmentNewAccountBinding.editTextEmail.getText().toString().isEmpty() && !fragmentNewAccountBinding.editTextPassword.getText().toString().isEmpty() && !fragmentNewAccountBinding.editTextName.getText().toString().isEmpty() ) {
+            FirebaseHelper.create(fragmentNewAccountBinding.editTextEmail.getText().toString(), fragmentNewAccountBinding.editTextPassword.getText().toString(), fragmentNewAccountBinding.editTextName.getText().toString(), this);
+        }
     }
 
     private void showFailureMessage(String message) {
@@ -87,7 +89,7 @@ public class NewAccountFragment extends Fragment implements RegisterListener {
 
     @Override
     public void onSuccess() {
-
+        fragmentChangeListener.navigateToForumsFromRegister();
     }
 
     @Override

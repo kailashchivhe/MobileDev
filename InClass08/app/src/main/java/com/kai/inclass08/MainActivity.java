@@ -5,11 +5,17 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.kai.inclass08.firebase.FirebaseHelper;
 import com.kai.inclass08.listener.FragmentChangeListener;
+import com.kai.inclass08.ui.CreateForumFragment;
+import com.kai.inclass08.ui.ForumFragment;
 import com.kai.inclass08.ui.LoginFragment;
 import com.kai.inclass08.ui.NewAccountFragment;
+
+// Group 26
+// InClass08
 
 public class MainActivity extends AppCompatActivity implements FragmentChangeListener {
 
@@ -31,12 +37,22 @@ public class MainActivity extends AppCompatActivity implements FragmentChangeLis
 
     private void setLoginFragment(Fragment fragment )
     {
-        fragmentManager.beginTransaction().add( R.id.container, fragment, LoginFragment.TAG ).commit();
+        fragmentManager.beginTransaction().replace( R.id.container, fragment, LoginFragment.TAG ).commit();
     }
 
     private void setRegisterFragment( Fragment fragment )
     {
         fragmentManager.beginTransaction().replace( R.id.container, fragment, NewAccountFragment.TAG ).addToBackStack( NewAccountFragment.TAG ).commit();
+    }
+
+    private void setForumFragment( Fragment fragment )
+    {
+        fragmentManager.beginTransaction().replace( R.id.container, fragment, ForumFragment.TAG ).addToBackStack( ForumFragment.TAG ).commit();
+    }
+
+    private void setCreateFragment( Fragment fragment )
+    {
+        fragmentManager.beginTransaction().replace( R.id.container, fragment, CreateForumFragment.TAG ).addToBackStack( CreateForumFragment.TAG ).commit();
     }
 
     @Override
@@ -51,6 +67,35 @@ public class MainActivity extends AppCompatActivity implements FragmentChangeLis
 
     @Override
     public void navigateToForums() {
+        ForumFragment fragment = ForumFragment.newInstance();
+        setForumFragment(fragment);
+    }
 
+    @Override
+    public void navigateToForumsFromRegister() {
+        fragmentManager.popBackStack();
+        ForumFragment fragment = ForumFragment.newInstance();
+        setForumFragment(fragment);
+    }
+
+    @Override
+    public void navigateToForumsFromCreate() {
+        fragmentManager.popBackStack();
+    }
+
+    @Override
+    public void navigateToCreateForums() {
+        CreateForumFragment fragment = CreateForumFragment.newInstance();
+        setCreateFragment(fragment);
+    }
+
+    @Override
+    public void onLogout() {
+        fragmentManager.popBackStack();
+        FirebaseHelper.logout();
+        LoginFragment loginFragment = (LoginFragment) fragmentManager.findFragmentByTag( LoginFragment.TAG );
+        if( loginFragment != null ){
+            loginFragment.clearData();
+        }
     }
 }

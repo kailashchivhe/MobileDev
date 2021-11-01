@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,7 +80,9 @@ public class LoginFragment extends Fragment implements LoginListener {
     }
 
     void onLoginClicked(){
-        FirebaseHelper.login( fragmentLoginBinding.editTextEmail.getText().toString(), fragmentLoginBinding.editTextTextPassword.getText().toString(), this );
+        if( !fragmentLoginBinding.editTextEmail.getText().toString().isEmpty() && !fragmentLoginBinding.editTextTextPassword.getText().toString().isEmpty() ) {
+            FirebaseHelper.login(fragmentLoginBinding.editTextEmail.getText().toString(), fragmentLoginBinding.editTextTextPassword.getText().toString(), this);
+        }
     }
 
     @Override
@@ -90,5 +93,17 @@ public class LoginFragment extends Fragment implements LoginListener {
     @Override
     public void onFailure(String message) {
         showFailureMessage( message );
+    }
+
+    public void clearData() {
+        new Handler().postDelayed( new Runnable() {
+            @Override
+            public void run() {
+                if(isVisible()) {
+                    fragmentLoginBinding.editTextEmail.setText("");
+                    fragmentLoginBinding.editTextTextPassword.setText("");
+                }
+            }
+        }, 2000 );
     }
 }
