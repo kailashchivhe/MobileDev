@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">HW05</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="login">Login</string>
+    <string name="create_new_account">Create New Account</string>
+    <string name="name">Name</string>
+    <string name="submit">Submit</string>
+    <string name="cancel">Cancel</string>
+    <string name="failure">Failure</string>
+    <string name="login_title">Login</string>
+    <string name="create_new_account_title">Create New Account</string>
+    <string name="logout">Logout</string>
+    <string name="create_forum">Create Forum</string>
+    <string name="forum_title">Forums</string>
+    <string name="forum_validation_error">Title and description is required.</string>
+    <string name="enter_forum_title">Forum Title</string>
+    <string name="enter_forum_desc">Forum Description</string>
+    <string name="create_posts_title">Create Post</string>
+    <string name="create_forum_title">New Forum</string>
+    <string name="new_forums">New Forums</string>
 </resources>

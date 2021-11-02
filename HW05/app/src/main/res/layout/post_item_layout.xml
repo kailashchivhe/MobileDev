@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/header_title"
+        android:layout_width="wrap_content"
+        android:layout_margin="8dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/userName"
+        android:layout_below="@id/header_title"
+        android:layout_width="wrap_content"
+        android:layout_margin="8dp"
+        android:textSize="14sp"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/dateText"
+        android:layout_below="@id/userName"
+        android:layout_width="wrap_content"
+        android:layout_margin="8dp"
+        android:textSize="14sp"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/deletePost"
+        android:src="@drawable/ic_trash"
+        android:layout_width="30dp"
+        android:visibility="gone"
+        android:layout_below="@id/userName"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="8dp"
+        android:layout_height="30dp"/>
+</RelativeLayout>
