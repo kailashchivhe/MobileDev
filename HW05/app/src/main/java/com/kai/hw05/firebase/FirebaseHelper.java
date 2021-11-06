@@ -27,6 +27,7 @@ import java.util.Map;
 public class FirebaseHelper {
     static FirebaseAuth firebaseAuth;
     static FirebaseFirestore firebaseFirestore;
+    static final String HW05_ROOT_COLLECTION = "NewForums";
 
     public static void initFirebase(){
         firebaseAuth = FirebaseAuth.getInstance();
@@ -93,12 +94,16 @@ public class FirebaseHelper {
                 });
     }
 
+    public static void addLike( Forum forum ){
+
+    }
+
     public static void deleteForum(Forum forum, DeleteListener deleteListener ){
-        firebaseFirestore.collection("Forums").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        firebaseFirestore.collection(HW05_ROOT_COLLECTION).whereEqualTo("userId", forum.getUserId()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 for (QueryDocumentSnapshot document : task.getResult()) {
-                    if(document.get("userId").equals(forum.getUserId()) && document.get("title").equals(forum.getTitle())){
+                    if(document.get("title").equals(forum.getTitle())){
                         firebaseFirestore.collection("Forums").document(document.getId()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task1) {
@@ -119,7 +124,8 @@ public class FirebaseHelper {
 
     public static void getAllForums(ForumListListener forumListListener){
         ArrayList<Forum> forumList = new ArrayList<>();
-        firebaseFirestore.collection("Forums" ).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        //Add order by clause
+        firebaseFirestore.collection(HW05_ROOT_COLLECTION ).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()) {
