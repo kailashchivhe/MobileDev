@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.kai.hw05.MainActivity;
@@ -18,7 +19,6 @@ import com.kai.hw05.R;
 import com.kai.hw05.databinding.FragmentCreateForumBinding;
 import com.kai.hw05.firebase.FirebaseHelper;
 import com.kai.hw05.listener.CreateListener;
-import com.kai.hw05.listener.FragmentChangeListener;
 import com.kai.hw05.model.Forum;
 
 import java.text.SimpleDateFormat;
@@ -28,8 +28,6 @@ public class CreateForumFragment extends Fragment {
     public static final String TAG = "CreateForumFragment";
 
     FragmentCreateForumBinding fragmentCreateForumBinding;
-
-    public FragmentChangeListener fragmentChangeListener;
 
     static FirebaseAuth firebaseAuth;
 
@@ -61,12 +59,6 @@ public class CreateForumFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        fragmentChangeListener = (MainActivity) context;
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         getActivity().setTitle(R.string.new_forums);
@@ -88,7 +80,7 @@ public class CreateForumFragment extends Fragment {
 
                         @Override
                         public void onSuccess() {
-                            fragmentChangeListener.navigateToForumsFromCreate();
+                            Navigation.findNavController( view ).navigate(R.id.action_createForumFragment_to_forumFragment );
                         }
 
                         @Override
@@ -103,7 +95,7 @@ public class CreateForumFragment extends Fragment {
         fragmentCreateForumBinding.cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragmentChangeListener.onRegisterCancelClicked();
+                Navigation.findNavController( view ).popBackStack();
             }
         });
     }

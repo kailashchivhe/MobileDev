@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.kai.hw05.ui.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_newAccountFragment"
+            app:destination="@id/newAccountFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_forumFragment"
+            app:destination="@id/forumFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createForumFragment"
+        android:name="com.kai.hw05.ui.CreateForumFragment"
+        android:label="fragment_create_forum"
+        tools:layout="@layout/fragment_create_forum" >
+        <action
+            android:id="@+id/action_createForumFragment_to_forumFragment"
+            app:popUpTo="@+id/forumFragment"
+            app:destination="@id/forumFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/forumFragment"
+        android:name="com.kai.hw05.ui.ForumFragment"
+        android:label="fragment_forum"
+        tools:layout="@layout/fragment_forum" >
+        <action
+            android:id="@+id/action_forumFragment_to_createForumFragment"
+            app:destination="@id/createForumFragment" />
+        <action
+            android:id="@+id/action_forumFragment_to_loginFragment"
+            app:popUpTo="@+id/loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newAccountFragment"
+        android:name="com.kai.hw05.ui.NewAccountFragment"
+        android:label="fragment_new_account"
+        tools:layout="@layout/fragment_new_account" >
+        <action
+            android:id="@+id/action_newAccountFragment_to_forumFragment"
+            app:destination="@id/forumFragment" />
+    </fragment>
+</navigation>
