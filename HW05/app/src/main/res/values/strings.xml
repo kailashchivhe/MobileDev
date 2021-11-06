@@ -19,4 +19,7 @@
     <string name="create_posts_title">Create Post</string>
     <string name="create_forum_title">New Forum</string>
     <string name="new_forums">New Forums</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="CommentHint">Write Comment</string>
 </resources>
