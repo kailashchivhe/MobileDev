@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -22,7 +24,6 @@ import com.kai.hw05.databinding.FragmentForumBinding;
 import com.kai.hw05.firebase.FirebaseHelper;
 import com.kai.hw05.listener.DeleteListener;
 import com.kai.hw05.listener.ForumListListener;
-import com.kai.hw05.listener.FragmentChangeListener;
 import com.kai.hw05.listener.RecyclerListener;
 import com.kai.hw05.model.Forum;
 
@@ -34,8 +35,6 @@ public class ForumFragment extends Fragment implements ForumListListener, Recycl
     public static final String TAG = "ForumFragment";
 
     FragmentForumBinding fragmentForumBinding;
-
-    public FragmentChangeListener fragmentChangeListener;
 
     ArrayList<Forum> forumList;
 
@@ -72,12 +71,6 @@ public class ForumFragment extends Fragment implements ForumListListener, Recycl
     }
 
     @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        fragmentChangeListener = (MainActivity) context;
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         getActivity().setTitle(R.string.forum_title);
@@ -87,14 +80,14 @@ public class ForumFragment extends Fragment implements ForumListListener, Recycl
         fragmentForumBinding.logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragmentChangeListener.onLogout();
+                Navigation.findNavController( view ).navigate( R.id.action_forumFragment_to_loginFragment );
             }
         });
 
         fragmentForumBinding.createForumButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragmentChangeListener.navigateToCreateForums();
+                Navigation.findNavController( view ).navigate( R.id.action_forumFragment_to_createForumFragment );
             }
         });
     }

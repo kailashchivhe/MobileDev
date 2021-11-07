@@ -11,12 +11,12 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
-import com.kai.hw05.MainActivity;
 import com.kai.hw05.R;
 import com.kai.hw05.databinding.FragmentNewAccountBinding;
 import com.kai.hw05.firebase.FirebaseHelper;
-import com.kai.hw05.listener.FragmentChangeListener;
 import com.kai.hw05.listener.RegisterListener;
 
 
@@ -24,29 +24,19 @@ public class NewAccountFragment extends Fragment implements RegisterListener {
 
     public static final String TAG = "NewAccountFragment";
 
-
     FragmentNewAccountBinding fragmentNewAccountBinding;
-
-    public FragmentChangeListener fragmentChangeListener;
-
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        fragmentChangeListener = (MainActivity) context;
-    }
-
-    public NewAccountFragment() {
-        // Required empty public constructor
     }
 
     public static NewAccountFragment newInstance() {
-        NewAccountFragment fragment = new NewAccountFragment();
-        return fragment;
+        return new NewAccountFragment();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         fragmentNewAccountBinding = FragmentNewAccountBinding.inflate( inflater, container, false );
         return fragmentNewAccountBinding.getRoot();
@@ -59,7 +49,7 @@ public class NewAccountFragment extends Fragment implements RegisterListener {
         fragmentNewAccountBinding.cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragmentChangeListener.onRegisterCancelClicked();
+                Navigation.findNavController( view ).popBackStack();
             }
         });
 
@@ -89,7 +79,7 @@ public class NewAccountFragment extends Fragment implements RegisterListener {
 
     @Override
     public void onSuccess() {
-        fragmentChangeListener.navigateToForumsFromRegister();
+        NavHostFragment.findNavController( this ).navigate( R.id.action_newAccountFragment_to_forumFragment );
     }
 
     @Override

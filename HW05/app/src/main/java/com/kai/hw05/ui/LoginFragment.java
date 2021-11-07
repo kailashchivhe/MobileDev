@@ -11,12 +11,13 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.kai.hw05.MainActivity;
 import com.kai.hw05.R;
 import com.kai.hw05.databinding.FragmentLoginBinding;
 import com.kai.hw05.firebase.FirebaseHelper;
-import com.kai.hw05.listener.FragmentChangeListener;
 import com.kai.hw05.listener.LoginListener;
 
 public class LoginFragment extends Fragment implements LoginListener {
@@ -25,13 +26,9 @@ public class LoginFragment extends Fragment implements LoginListener {
 
     FragmentLoginBinding fragmentLoginBinding;
 
-    public FragmentChangeListener fragmentChangeListener;
-
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        fragmentChangeListener = (MainActivity) context;
     }
 
     public static LoginFragment newInstance() {
@@ -52,7 +49,7 @@ public class LoginFragment extends Fragment implements LoginListener {
         fragmentLoginBinding.createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onCreateClicked();
+                onCreateClicked(view);
             }
         });
 
@@ -64,8 +61,8 @@ public class LoginFragment extends Fragment implements LoginListener {
         });
     }
 
-    private void onCreateClicked() {
-        fragmentChangeListener.navigateToRegisterFragment();
+    private void onCreateClicked(View view ) {
+        Navigation.findNavController( view ).navigate( R.id.action_loginFragment_to_newAccountFragment );
     }
 
     private void showFailureMessage(String message) {
@@ -86,7 +83,7 @@ public class LoginFragment extends Fragment implements LoginListener {
 
     @Override
     public void onSuccess() {
-        fragmentChangeListener.navigateToForums();
+        NavHostFragment.findNavController( this ).navigate( R.id.action_loginFragment_to_forumFragment );
     }
 
     @Override
