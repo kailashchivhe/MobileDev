@@ -1,6 +1,5 @@
 package com.kai.hw05.adapter;
 
-import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,20 +12,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.auth.FirebaseUser;
 import com.kai.hw05.R;
 import com.kai.hw05.firebase.FirebaseHelper;
+import com.kai.hw05.listener.CommentsRecyclerListener;
 import com.kai.hw05.listener.RecyclerListener;
+import com.kai.hw05.model.Comments;
 import com.kai.hw05.model.Forum;
 
 import java.util.List;
 
-public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdaptor.ViewHolder> {
+public class CommentsRecyclerViewAdaptor extends RecyclerView.Adapter<CommentsRecyclerViewAdaptor.ViewHolder> {
 
-    private List<Forum> list;
+    private List<Comments> list;
 
     private FirebaseUser user;
 
-    RecyclerListener recyclerListener;
+    CommentsRecyclerListener recyclerListener;
 
-    public RecyclerViewAdaptor(List<Forum> objectList, FirebaseUser user, RecyclerListener recyclerListener ){
+    public CommentsRecyclerViewAdaptor(List<Comments> objectList, FirebaseUser user, CommentsRecyclerListener recyclerListener ){
         list = objectList;
         this.user = user;
         this.recyclerListener = recyclerListener;
@@ -35,52 +36,54 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.post_item_layout, parent, false);
-        return new ViewHolder(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.new_post_item_layout, parent, false);
+        return new CommentsRecyclerViewAdaptor.ViewHolder(view);
     }
 
-    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.setIsRecyclable( false );
-        Forum forum = list.get( position );
-        holder.dateTextView.setText( forum.getDate() );
-        holder.headerTextView.setText( forum.getTitle() );
-        holder.userTextView.setText( forum.getSubTitle() );
+        Comments comment = list.get( position );
+
+        // Fetch user name using user name
+        holder.commentUserNameTextView.setText( comment.getUserId() );
+        holder.commentDesctiption.setText( comment.getComment() );
+        holder.commentCreationDate.setText( comment.getDate());
+
         if( user == null ){
             user = FirebaseHelper.getUser();
         }
-        if( user != null && forum.getUserId().compareTo( user.getUid() ) == 0 ){
+        if( user != null && comment.getUserId().compareTo( user.getUid() ) == 0 ){
             holder.imageView.setVisibility( View.VISIBLE );
             holder.imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    recyclerListener.onDeleteClicked( forum );
+                    recyclerListener.onDeleteClicked( comment );
                 }
             });
         }
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount()  {
         return list.size();
     }
 
-    public void refreshData(List<Forum> objectList){
+    public void refreshData(List<Comments> objectList){
         list = objectList;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView headerTextView;
-        private final TextView userTextView;
-        private final TextView dateTextView;
+        private final TextView commentUserNameTextView;
+        private final TextView commentDesctiption;
+        private final TextView commentCreationDate;
         private final ImageView imageView;
 
         public ViewHolder(@NonNull View view) {
             super(view);
-            headerTextView = (TextView) view.findViewById(R.id.header_title);
-            userTextView = (TextView) view.findViewById(R.id.userName);
-            dateTextView = (TextView) view.findViewById(R.id.dateText);
+            commentUserNameTextView = (TextView) view.findViewById(R.id.commentUserNameTextView);
+            commentDesctiption = (TextView) view.findViewById(R.id.commentDesctiption);
+            commentCreationDate = (TextView) view.findViewById(R.id.commentCreationDate);
             imageView = (ImageView) view.findViewById(R.id.postDeleteButton);
         }
     }
