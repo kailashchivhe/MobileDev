@@ -6,20 +6,20 @@
     tools:context=".ui.ForumFragment">
 
     <Button
-        android:id="@+id/createForumButton"
+        android:id="@+id/logoutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_marginLeft="10dp"
-        android:text="@string/create_forum" />
+        android:text="@string/logout" />
 
     <Button
-        android:id="@+id/logoutButton"
+        android:id="@+id/createForumButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_marginRight="10dp"
-        android:text="@string/logout" />
+        android:text="@string/create_forum" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/list_container"

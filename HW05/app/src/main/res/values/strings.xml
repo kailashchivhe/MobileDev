@@ -11,7 +11,7 @@
     <string name="login_title">Login</string>
     <string name="create_new_account_title">Create New Account</string>
     <string name="logout">Logout</string>
-    <string name="create_forum">Create Forum</string>
+    <string name="create_forum">New Forum</string>
     <string name="forum_title">Forums</string>
     <string name="forum_validation_error">Title and description is required.</string>
     <string name="enter_forum_title">Forum Title</string>

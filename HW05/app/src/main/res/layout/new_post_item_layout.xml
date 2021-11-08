@@ -7,7 +7,7 @@
     android:padding="10dp">
 
     <TextView
-        android:id="@+id/postUserNameTextView"
+        android:id="@+id/commentUserNameTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textSize="18sp"
@@ -16,24 +16,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/postDesctiption"
+        android:id="@+id/commentDesctiption"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/postUserNameTextView"
-        app:layout_constraintTop_toBottomOf="@+id/postUserNameTextView" />
-
-    <TextView
-        android:id="@+id/commentNumber"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="0 Comments"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/postDesctiption"
-        app:layout_constraintTop_toBottomOf="@+id/postDesctiption" />
+        app:layout_constraintStart_toStartOf="@+id/commentUserNameTextView"
+        app:layout_constraintTop_toBottomOf="@+id/commentUserNameTextView" />
 
     <ImageView
         android:id="@+id/postDeleteButton"
@@ -44,25 +33,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/rubbish_bin" />
 
-    <EditText
-        android:id="@+id/commentInput"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:ems="10"
-        android:hint="@string/CommentHint"
-        android:inputType="textPersonName"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/postCommentButton"
-        app:layout_constraintStart_toStartOf="@+id/commentNumber"
-        app:layout_constraintTop_toBottomOf="@+id/commentNumber" />
-
-    <Button
-        android:id="@+id/postCommentButton"
+    <TextView
+        android:id="@+id/commentCreationDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Post"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/commentNumber" />
+        app:layout_constraintEnd_toEndOf="@+id/commentDesctiption"
+        app:layout_constraintTop_toBottomOf="@+id/commentDesctiption" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
