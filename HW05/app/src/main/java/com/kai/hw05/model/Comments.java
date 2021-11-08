@@ -9,6 +9,24 @@ public class Comments {
     String date;
     String forum;
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    String userName;
+
+    public Comments(String comment, String userId, String date, String forum, String userName) {
+        this.comment = comment;
+        this.userId = userId;
+        this.date = date;
+        this.forum = forum;
+        this.userName = userName;
+    }
+
     public Comments(String comment, String userId, String date, String forum) {
         this.comment = comment;
         this.userId = userId;

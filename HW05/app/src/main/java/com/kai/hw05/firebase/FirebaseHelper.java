@@ -1,8 +1,10 @@
 package com.kai.hw05.firebase;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -11,10 +13,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.kai.hw05.listener.CommentsListener;
 import com.kai.hw05.listener.CreateListener;
 import com.kai.hw05.listener.DeleteListener;
@@ -99,36 +105,29 @@ public class FirebaseHelper {
 
     public static void likeForum( Forum forum, boolean isLiked){
         if( isLiked ){
-            //TODO unlike
             firebaseFirestore.collection(HW05_ROOT_COLLECTION).whereEqualTo("date", forum.getDate() ).whereEqualTo("title", forum.getTitle() ).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if( task.isSuccessful() ){
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            HashMap<String,Boolean> map = new HashMap<>();
-                            map.put( getUser().getUid(), true );
-                            document.getDocumentReference(document.getId()).update( "likes", FieldValue.arrayUnion(map) );
-                        }
-                    }
+
                 }
             });
         }
         else{
-            //TODO add
             firebaseFirestore.collection(HW05_ROOT_COLLECTION).whereEqualTo("date", forum.getDate() ).whereEqualTo("title", forum.getTitle() ).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if( task.isSuccessful() ){
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            HashMap<String,Boolean> map = new HashMap<>();
-                            map.put( getUser().getUid(), true );
-                            firebaseFirestore.collection(HW05_ROOT_COLLECTION).document(document.getId());
+                            Map<String, Boolean> likes = new HashMap<>();
+                            Map<String, Object> map = new HashMap<>();
+                            likes.put(getUser().getUid(), true);
+                            map.put("likes", likes );
+                            firebaseFirestore.collection(HW05_ROOT_COLLECTION).document(document.getId()).set( map, SetOptions.merge() );
                         }
                     }
                 }
             });
         }
-
     }
 
     public static void getAllComments(Forum forum, CommentsListener commentsListener){
@@ -140,7 +139,8 @@ public class FirebaseHelper {
                     Comments comments = new Comments( document.get("comment").toString(),
                             document.get("userId").toString(),
                             document.get("date").toString(),
-                            document.get("forum").toString() );
+                            document.get("forum").toString(),
+                            document.get("userName").toString());
                     commentsList.add( comments );
                 }
                 commentsListener.onSuccess(commentsList);
@@ -156,6 +156,7 @@ public class FirebaseHelper {
         commentMap.put("userId", comments.getUserId());
         commentMap.put("comment", comments.getComment());
         commentMap.put("forum", comments.getForum() );
+        commentMap.put("userName", comments.getUserName());
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();
         commentMap.put("date", formatter.format( date ) );
@@ -167,17 +168,17 @@ public class FirebaseHelper {
                 });
     }
 
-    public static void deleteComment(Comments comments ){
+    public static void deleteComment(Comments comments, DeleteListener deleteListener ){
         firebaseFirestore.collection(HW05_COMMENTS_COLLECTION).whereEqualTo("userId", comments.getUserId()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     if(document.get("comment").equals(comments.getComment())){
-                        firebaseFirestore.collection(HW05_ROOT_COLLECTION).document(document.getId()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                        firebaseFirestore.collection(HW05_COMMENTS_COLLECTION).document(document.getId()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task1) {
                                 if(!task1.isSuccessful()){
-                                    //TODO: add failure
+                                    deleteListener.onFailure( task1.getException().getMessage() );
                                 }
                             }
                         });

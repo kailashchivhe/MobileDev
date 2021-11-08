@@ -52,10 +52,10 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
         if( user == null ){
             user = FirebaseHelper.getUser();
         }
-        if( forum.getLikes().containsKey( user.getUid() ) ){
+        if( user != null && forum.getLikes().containsKey( user.getUid() ) ){
             holder.likeView.setImageResource( R.drawable.like_favorite );
         }
-        if( forum.getUserId().compareTo( user.getUid() ) == 0 ){
+        if( user != null && forum.getUserId().compareTo( user.getUid() ) == 0 ){
             holder.deleteView.setVisibility( View.VISIBLE );
             holder.deleteView.setOnClickListener(new View.OnClickListener() {
                 @Override

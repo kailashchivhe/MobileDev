@@ -46,7 +46,7 @@ public class CommentsRecyclerViewAdaptor extends RecyclerView.Adapter<CommentsRe
         Comments comment = list.get( position );
 
         // Fetch user name using user name
-        holder.commentUserNameTextView.setText( comment.getUserId() );
+        holder.commentUserNameTextView.setText( comment.getUserName() );
         holder.commentDesctiption.setText( comment.getComment() );
         holder.commentCreationDate.setText( comment.getDate());
 
