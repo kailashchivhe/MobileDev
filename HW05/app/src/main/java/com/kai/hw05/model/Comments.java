@@ -7,8 +7,22 @@ public class Comments {
     String comment;
     String userId;
     String date;
+    String forum;
 
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+    public Comments(String comment, String userId, String date, String forum) {
+        this.comment = comment;
+        this.userId = userId;
+        this.date = date;
+        this.forum = forum;
+    }
+
+    public String getForum() {
+        return forum;
+    }
+
+    public void setForum(String forum) {
+        this.forum = forum;
+    }
 
     public String getDate() {
         return date;
@@ -18,11 +32,6 @@ public class Comments {
         this.date = date;
     }
 
-    public Comments(String comment, String userId) {
-        this.comment = comment;
-        this.userId = userId;
-        this.date = dtf.format(LocalDateTime.now());
-    }
 
     public String getComment() {
         return comment;
@@ -40,11 +49,4 @@ public class Comments {
         this.userId = userId;
     }
 
-    @Override
-    public String toString() {
-        return "Comments{" +
-                "comment='" + comment + '\'' +
-                ", userId='" + userId + '\'' +
-                '}';
-    }
 }

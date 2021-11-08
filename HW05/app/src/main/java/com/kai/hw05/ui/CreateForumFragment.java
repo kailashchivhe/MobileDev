@@ -74,8 +74,7 @@ public class CreateForumFragment extends Fragment {
                 } else {
                     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                     Date date = new Date();
-
-                    Forum forum = new Forum(formatter.format(date), description, title, firebaseAuth.getCurrentUser().getUid(), firebaseAuth.getCurrentUser().getDisplayName());
+                    Forum forum = new Forum( formatter.format(date),description, title, firebaseAuth.getCurrentUser().getUid(), firebaseAuth.getCurrentUser().getDisplayName());
                     FirebaseHelper.createForum(forum, new CreateListener(){
 
                         @Override

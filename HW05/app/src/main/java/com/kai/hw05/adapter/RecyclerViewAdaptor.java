@@ -46,19 +46,36 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
         Forum forum = list.get( position );
         holder.dateTextView.setText( forum.getDate() );
         holder.headerTextView.setText( forum.getTitle() );
-        holder.userTextView.setText( forum.getSubTitle() );
+        holder.userTextView.setText( forum.getUserName() );
+        holder.descTextView.setText( forum.getSubTitle() );
+        holder.likeTextView.setText(forum.getLikes().size() + " Likes | ");
         if( user == null ){
             user = FirebaseHelper.getUser();
         }
-        if( user != null && forum.getUserId().compareTo( user.getUid() ) == 0 ){
-            holder.imageView.setVisibility( View.VISIBLE );
-            holder.imageView.setOnClickListener(new View.OnClickListener() {
+        if( forum.getLikes().containsKey( user.getUid() ) ){
+            holder.likeView.setImageResource( R.drawable.like_favorite );
+        }
+        if( forum.getUserId().compareTo( user.getUid() ) == 0 ){
+            holder.deleteView.setVisibility( View.VISIBLE );
+            holder.deleteView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     recyclerListener.onDeleteClicked( forum );
                 }
             });
         }
+        holder.likeView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                recyclerListener.onLikeClicked( forum, forum.getLikes().containsKey( user.getUid() ) );
+            }
+        });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                recyclerListener.onForumClicked( forum );
+            }
+        });
     }
 
     @Override
@@ -73,15 +90,21 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
     public class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView headerTextView;
         private final TextView userTextView;
+        private final TextView descTextView;
         private final TextView dateTextView;
-        private final ImageView imageView;
+        private final TextView likeTextView;
+        private final ImageView deleteView;
+        private final ImageView likeView;
 
         public ViewHolder(@NonNull View view) {
             super(view);
             headerTextView = (TextView) view.findViewById(R.id.header_title);
             userTextView = (TextView) view.findViewById(R.id.userName);
             dateTextView = (TextView) view.findViewById(R.id.dateText);
-            imageView = (ImageView) view.findViewById(R.id.postDeleteButton);
+            deleteView = (ImageView) view.findViewById(R.id.imageView);
+            likeView = (ImageView) view.findViewById(R.id.imageView2);
+            descTextView = (TextView) view.findViewById(R.id.description);
+            likeTextView = (TextView) view.findViewById(R.id.likeCountText);
         }
     }
 }

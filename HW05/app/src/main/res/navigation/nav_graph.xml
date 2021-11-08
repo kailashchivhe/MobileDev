@@ -36,9 +36,8 @@
             android:id="@+id/action_forumFragment_to_createForumFragment"
             app:destination="@id/createForumFragment" />
         <action
-            android:id="@+id/action_forumFragment_to_loginFragment"
-            app:popUpTo="@+id/loginFragment"
-            app:destination="@id/loginFragment" />
+            android:id="@+id/action_forumFragment_to_postsFragment"
+            app:destination="@id/postsFragment" />
     </fragment>
     <fragment
         android:id="@+id/newAccountFragment"
@@ -49,4 +48,9 @@
             android:id="@+id/action_newAccountFragment_to_forumFragment"
             app:destination="@id/forumFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/postsFragment"
+        android:name="com.kai.hw05.ui.PostsFragment"
+        android:label="fragment_posts"
+        tools:layout="@layout/fragment_posts" />
 </navigation>
