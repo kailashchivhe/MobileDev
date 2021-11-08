@@ -1,15 +1,24 @@
 package com.kai.hw05.model;
 
+import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
-public class Forum {
+public class Forum implements Serializable {
     String date;
     String subTitle;
     String title;
     String userId;
     String userName;
     Map<String,Boolean> likes;
-    Comments comments;
+
+    public Map<String, Boolean> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Map<String, Boolean> likes) {
+        this.likes = likes;
+    }
 
     @Override
     public String toString() {
@@ -20,18 +29,16 @@ public class Forum {
                 ", userId='" + userId + '\'' +
                 ", userName='" + userName + '\'' +
                 ", likes=" + likes +
-                ", comments=" + comments +
                 '}';
     }
 
-    public Forum(String date, String subTitle, String title, String userId, String userName, Map<String, Boolean> likes, Comments comments) {
+    public Forum(String date, String subTitle, String title, String userId, String userName, Map<String, Boolean> likes, List<Comments> comments) {
         this.date = date;
         this.subTitle = subTitle;
         this.title = title;
         this.userId = userId;
         this.userName = userName;
         this.likes = likes;
-        this.comments = comments;
     }
 
     public Forum(String date, String subTitle, String title, String userId, String userName) {
