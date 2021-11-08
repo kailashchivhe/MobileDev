@@ -2,10 +2,8 @@ package com.kai.hw05.ui;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,7 +16,6 @@ import android.view.ViewGroup;
 
 import com.kai.hw05.R;
 import com.kai.hw05.adapter.CommentsRecyclerViewAdaptor;
-import com.kai.hw05.adapter.RecyclerViewAdaptor;
 import com.kai.hw05.databinding.FragmentPostsBinding;
 import com.kai.hw05.firebase.FirebaseHelper;
 import com.kai.hw05.listener.CommentsListener;

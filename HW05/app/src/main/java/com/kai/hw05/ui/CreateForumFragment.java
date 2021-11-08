@@ -1,7 +1,7 @@
 package com.kai.hw05.ui;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -72,7 +72,7 @@ public class CreateForumFragment extends Fragment {
                     // Error
                     showFailureMessage(String.valueOf(R.string.forum_validation_error));
                 } else {
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                    @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                     Date date = new Date();
                     Forum forum = new Forum( formatter.format(date),description, title, firebaseAuth.getCurrentUser().getUid(), firebaseAuth.getCurrentUser().getDisplayName());
                     FirebaseHelper.createForum(forum, new CreateListener(){

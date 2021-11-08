@@ -39,11 +39,6 @@ public class ForumFragment extends Fragment implements ForumListListener, Recycl
 
     static FirebaseAuth firebaseAuth;
 
-    public ForumFragment() {
-        // Required empty public constructor
-    }
-
-
     public static ForumFragment newInstance() {
         ForumFragment fragment = new ForumFragment();
         Bundle args = new Bundle();

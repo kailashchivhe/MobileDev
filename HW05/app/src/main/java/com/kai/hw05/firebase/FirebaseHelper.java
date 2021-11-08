@@ -1,23 +1,17 @@
 package com.kai.hw05.firebase;
 
+
 import android.annotation.SuppressLint;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
@@ -34,8 +28,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 public class FirebaseHelper {
     static FirebaseAuth firebaseAuth;
@@ -108,7 +102,11 @@ public class FirebaseHelper {
             firebaseFirestore.collection(HW05_ROOT_COLLECTION).whereEqualTo("date", forum.getDate() ).whereEqualTo("title", forum.getTitle() ).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
-
+                    for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                        Map<String, Object> deleteData = new HashMap<>();
+                        deleteData.put("likes."+getUser().getUid(), FieldValue.delete());
+                        firebaseFirestore.collection(HW05_ROOT_COLLECTION).document(document.getId()).update(deleteData);
+                    }
                 }
             });
         }
@@ -117,7 +115,7 @@ public class FirebaseHelper {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if( task.isSuccessful() ){
-                        for (QueryDocumentSnapshot document : task.getResult()) {
+                        for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
                             Map<String, Boolean> likes = new HashMap<>();
                             Map<String, Object> map = new HashMap<>();
                             likes.put(getUser().getUid(), true);
@@ -157,7 +155,7 @@ public class FirebaseHelper {
         commentMap.put("comment", comments.getComment());
         commentMap.put("forum", comments.getForum() );
         commentMap.put("userName", comments.getUserName());
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();
         commentMap.put("date", formatter.format( date ) );
         firebaseFirestore.collection(HW05_COMMENTS_COLLECTION)
@@ -172,7 +170,7 @@ public class FirebaseHelper {
         firebaseFirestore.collection(HW05_COMMENTS_COLLECTION).whereEqualTo("userId", comments.getUserId()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                for (QueryDocumentSnapshot document : task.getResult()) {
+                for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
                     if(document.get("comment").equals(comments.getComment())){
                         firebaseFirestore.collection(HW05_COMMENTS_COLLECTION).document(document.getId()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
@@ -192,7 +190,7 @@ public class FirebaseHelper {
         firebaseFirestore.collection(HW05_ROOT_COLLECTION).whereEqualTo("userId", forum.getUserId()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                for (QueryDocumentSnapshot document : task.getResult()) {
+                for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
                     if(document.get("title").equals(forum.getTitle())){
                         firebaseFirestore.collection(HW05_ROOT_COLLECTION).document(document.getId()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
