@@ -1,6 +1,7 @@
 package com.kai.hw05.firebase;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -10,7 +11,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.kai.hw05.listener.CreateListener;
@@ -18,6 +22,7 @@ import com.kai.hw05.listener.DeleteListener;
 import com.kai.hw05.listener.ForumListListener;
 import com.kai.hw05.listener.LoginListener;
 import com.kai.hw05.listener.RegisterListener;
+import com.kai.hw05.model.Comments;
 import com.kai.hw05.model.Forum;
 
 import java.util.ArrayList;
@@ -72,29 +77,42 @@ public class FirebaseHelper {
     }
 
     public static void createForum(Forum forum, CreateListener createListener){
-        Map<String, String> forumMap = new HashMap<String, String>();
-        forumMap.put("date", forum.getDate() );
+        Map<String, Object> forumMap = new HashMap<String, Object>();
+        forumMap.put("date", FieldValue.serverTimestamp() );
         forumMap.put("subTitle", forum.getSubTitle() );
         forumMap.put("title", forum.getTitle() );
         forumMap.put("userId", forum.getUserId() );
         forumMap.put("userName", forum.getUserName() );
+        forumMap.put( "likes", new HashMap<String,Boolean>() );
         firebaseFirestore.collection("Forums")
                 .add(forumMap)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        createListener.onSuccess();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        createListener.onFailure( e.getMessage() );
-                    }
-                });
+                .addOnSuccessListener(documentReference -> createListener.onSuccess())
+                .addOnFailureListener(e -> createListener.onFailure( e.getMessage() ));
     }
 
-    public static void addLike( Forum forum ){
+    public static void likeForum( Forum forum ){
+        firebaseFirestore.collection("Forums").whereEqualTo("date", forum.getDate() ).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if( task.isSuccessful() ){
+
+                }
+                else{
+
+                }
+            }
+        });
+    }
+
+    public static void addComment(){
+
+    }
+
+    public static void unLikeForum(){
+
+    }
+
+    public static void deleteComment(){
 
     }
 
@@ -119,27 +137,43 @@ public class FirebaseHelper {
                 }
             }
         });
-
     }
 
     public static void getAllForums(ForumListListener forumListListener){
         ArrayList<Forum> forumList = new ArrayList<>();
         //Add order by clause
-        firebaseFirestore.collection(HW05_ROOT_COLLECTION ).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Forum forum = new Forum( document.get("date").toString(), document.get("subTitle").toString(),
-                                document.get("title").toString(),
-                                document.get("userId").toString(),
-                                document.get("userName").toString() );
-                        forumList.add(forum);
-                    }
-                    forumListListener.onSuccess(forumList);
-                } else {
-                    forumListListener.onFailure(task.getException().getMessage());
+//        firebaseFirestore.collection(HW05_ROOT_COLLECTION ).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                if(task.isSuccessful()) {
+//                    for (QueryDocumentSnapshot document : task.getResult()) {
+//                        Forum forum = new Forum( document.get("date").toString(), document.get("subTitle").toString(),
+//                                document.get("title").toString(),
+//                                document.get("userId").toString(),
+//                                document.get("userName").toString() );
+//                        forumList.add(forum);
+//                    }
+//                    forumListListener.onSuccess(forumList);
+//                } else {
+//                    forumListListener.onFailure(task.getException().getMessage());
+//                }
+//            }
+//        });
+
+        firebaseFirestore.collection( HW05_ROOT_COLLECTION ).addSnapshotListener((queryDocumentSnapshots, e) -> {
+            if( e == null && queryDocumentSnapshots != null ){
+                for ( QueryDocumentSnapshot document : queryDocumentSnapshots ) {
+//                    Forum forum = new Forum( document.get("date").toString(), document.get("subTitle").toString(),
+//                            document.get("title").toString(),
+//                            document.get("userId").toString(),
+//                            document.get("userName").toString() );
+                    Forum forum = document.toObject( Forum.class );
+                    forumList.add( forum );
                 }
+                forumListListener.onSuccess(forumList);
+            }
+            else{
+                forumListListener.onFailure( e.getMessage() );
             }
         });
     }

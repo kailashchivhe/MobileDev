@@ -1,19 +1,15 @@
 package com.kai.hw05.model;
 
+import java.util.Map;
+
 public class Forum {
     String date;
     String subTitle;
     String title;
     String userId;
     String userName;
-
-    public Forum(String date, String subTitle, String title, String userId, String userName) {
-        this.date = date;
-        this.subTitle = subTitle;
-        this.title = title;
-        this.userId = userId;
-        this.userName = userName;
-    }
+    Map<String,Boolean> likes;
+    Comments comments;
 
     @Override
     public String toString() {
@@ -23,7 +19,27 @@ public class Forum {
                 ", title='" + title + '\'' +
                 ", userId='" + userId + '\'' +
                 ", userName='" + userName + '\'' +
+                ", likes=" + likes +
+                ", comments=" + comments +
                 '}';
+    }
+
+    public Forum(String date, String subTitle, String title, String userId, String userName, Map<String, Boolean> likes, Comments comments) {
+        this.date = date;
+        this.subTitle = subTitle;
+        this.title = title;
+        this.userId = userId;
+        this.userName = userName;
+        this.likes = likes;
+        this.comments = comments;
+    }
+
+    public Forum(String date, String subTitle, String title, String userId, String userName) {
+        this.date = date;
+        this.subTitle = subTitle;
+        this.title = title;
+        this.userId = userId;
+        this.userName = userName;
     }
 
     public String getDate() {

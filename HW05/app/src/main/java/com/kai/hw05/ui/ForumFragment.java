@@ -80,6 +80,7 @@ public class ForumFragment extends Fragment implements ForumListListener, Recycl
         fragmentForumBinding.logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                FirebaseHelper.logout();
                 Navigation.findNavController( view ).navigate( R.id.action_forumFragment_to_loginFragment );
             }
         });
