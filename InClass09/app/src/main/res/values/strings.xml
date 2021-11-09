@@ -2,4 +2,5 @@
     <string name="app_name">InClass09</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="course_add">Add</string>
 </resources>
