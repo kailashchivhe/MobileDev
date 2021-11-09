@@ -1,4 +1,4 @@
-package com.kai.inclass09;
+package com.kai.inclass09.adapter;
 
 import android.view.View;
 import android.view.ViewGroup;
