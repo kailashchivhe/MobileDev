@@ -20,4 +20,15 @@ public class CourseTaken {
 
     @ColumnInfo(name = "letter_grade")
     public String letterGrade;
+
+    @Override
+    public String toString() {
+        return "CourseTaken{" +
+                "rid=" + rid +
+                ", creditHours=" + creditHours +
+                ", CourseNumber='" + CourseNumber + '\'' +
+                ", courseTitle='" + courseTitle + '\'' +
+                ", letterGrade='" + letterGrade + '\'' +
+                '}';
+    }
 }
