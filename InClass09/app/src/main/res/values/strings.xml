@@ -3,4 +3,23 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="course_add">Add</string>
+    <string name="courses_text">Courses</string>
+    <string name="course_number_hint">Course Number</string>
+    <string name="course_name_hint">Course Name</string>
+    <string name="credit_hours_hint">Credit Hours</string>
+    <string name="course_grade_text">Course Grade</string>
+    <string name="course_grade_a">A</string>
+    <string name="course_grade_b">B</string>
+    <string name="course_grade_c">C</string>
+    <string name="course_grade_d">D</string>
+    <string name="course_grade_e">E</string>
+    <string name="course_grade_f">F</string>
+    <string name="submit_button">Submit</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="failure">Error</string>
+    <string name="failure_msg">Please fill up all necessary fields</string>
+
+    <string name="gradesT">Grades</string>
+    <string name="addT">Add Course</string>
+
 </resources>

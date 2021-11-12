@@ -13,7 +13,9 @@ public class RoomHelper {
     static CourseDAO courseDAO;
 
     public static void init(Context context){
-        courseDatabase = Room.databaseBuilder(context, CourseDatabase.class, "course-database").build();
+        courseDatabase = Room.databaseBuilder(context, CourseDatabase.class, "course-database")
+                .allowMainThreadQueries()
+                .build();
         courseDAO = courseDatabase.courseDao();
     }
 

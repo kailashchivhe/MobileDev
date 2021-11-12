@@ -8,7 +8,7 @@ android {
     defaultConfig {
         applicationId "com.kai.inclass09"
         minSdk 26
-        targetSdk 31
+        targetSdk 26
         versionCode 1
         versionName "1.0"
 
@@ -32,7 +32,7 @@ android {
 
 dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    def room_version = "2.3.0"
+    def room_version = "2.4.0-alpha03"
 
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"

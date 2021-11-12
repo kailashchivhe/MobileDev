@@ -9,5 +9,14 @@
         android:id="@+id/homeFragment"
         android:name="com.kai.inclass09.ui.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_addCourseFragment"
+            app:destination="@id/addCourseFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addCourseFragment"
+        android:name="com.kai.inclass09.ui.AddCourseFragment"
+        android:label="fragment_add_course"
+        tools:layout="@layout/fragment_add_course" />
 </navigation>
