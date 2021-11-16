@@ -2,16 +2,26 @@ package com.kai.inclass10;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.kai.inclass10.databinding.ActivityMapsBinding;
-
+import com.kai.inclass10.model.Point;
+import com.kai.inclass10.model.Route;
+/*
+* Name: Kailash Chivhe & Ankit Vaity
+* Assignment: InClass10
+* file: MapsActivity
+* */
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -24,28 +34,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        Route route = JSONReader.readAssets( getApplicationContext() );
+        if( route != null ) {
+            LatLng start = new LatLng(route.points.get(0).latitude, route.points.get(0).longitude);
+            LatLng end = new LatLng(route.points.get(route.points.size()-1).latitude, route.points.get(route.points.size()-1).longitude);
+            mMap.addMarker(new MarkerOptions().position(start).title("Start"));
+            mMap.addMarker(new MarkerOptions().position(end).title("End"));
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
+            PolylineOptions options = new PolylineOptions().width(10).color(Color.BLUE).geodesic(true);
+            for(Point point:route.points){
+                LatLng latLng = new LatLng(point.latitude, point.longitude);
+                options.add(latLng);
+                builder.include( latLng );
+            }
+
+            mMap.addPolyline( options );
+
+            int padding = 50;
+            LatLngBounds bounds = builder.build();
+            final CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+            mMap.setOnMapLoadedCallback(() -> mMap.animateCamera(cu));
+        }
     }
 }
