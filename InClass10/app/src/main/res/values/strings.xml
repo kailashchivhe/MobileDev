@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">InClass10</string>
+    <string name="app_name">HW07</string>
     <string name="title_activity_maps">MapsActivity</string>
     <string name="api_key">AIzaSyAWcTXqpa2taaupMqOTETTOc47OCWafePQ</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">HW07</string>
     <string name="email">Enter Email</string>
     <string name="password">Enter Password</string>
     <string name="login">Login</string>
