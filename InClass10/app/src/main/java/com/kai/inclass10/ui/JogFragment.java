@@ -103,6 +103,7 @@ public class JogFragment extends Fragment {
 
     private void navigateToMap(){
         Bundle bundle = new Bundle();
+        bundle.putSerializable( "route", arrayList );
         NavHostFragment.findNavController( this ).navigate( R.id.action_jogFragment_to_mapsActivity, bundle );
     }
     @Override

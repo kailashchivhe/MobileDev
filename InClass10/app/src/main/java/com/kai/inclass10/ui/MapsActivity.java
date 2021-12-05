@@ -35,7 +35,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
 
         if( savedInstanceState != null ){
-            routeList = savedInstanceState.getParcelableArrayList("route" );
+            routeList = (ArrayList<LatLng>) savedInstanceState.getSerializable("route" );
         }
 
         if( mapFragment != null ) {
@@ -47,7 +47,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        if( routeList != null ) {
+        if( routeList != null && routeList.size() > 2 ) {
             LatLng start = new LatLng(routeList.get(0).latitude, routeList.get(0).longitude);
             LatLng end = new LatLng(routeList.get(routeList.size()-1).latitude, routeList.get(routeList.size()-1).longitude);
             mMap.addMarker( new MarkerOptions().position(start).title("Start") );
