@@ -29,10 +29,12 @@
             android:id="@+id/action_HomeFragment_to_jogFragment"
             app:destination="@id/jogFragment" />
     </fragment>
+
     <activity
         android:id="@+id/mapsActivity"
         android:name="com.kai.inclass10.ui.MapsActivity"
         android:label="MapsActivity" />
+
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.kai.inclass10.ui.RegisterFragment"
@@ -48,8 +50,8 @@
     <fragment
         android:id="@+id/jogFragment"
         android:name="com.kai.inclass10.ui.JogFragment"
-        android:label="fragment_jog"
-        tools:layout="@layout/fragment_jog" >
+        android:label="Jog"
+        tools:layout="@layout/fragment_jog">
         <action
             android:id="@+id/action_jogFragment_to_mapsActivity"
             app:destination="@id/mapsActivity" />

@@ -10,22 +10,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:text="@string/start"/>
+        android:padding="10dp"
+        android:text="@string/start" />
 
     <Button
         android:id="@+id/stopButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:layout_below="@id/startButton"
-        android:text="@string/stop"/>
+        android:layout_centerVertical="true"
+        android:text="@string/stop" />
 
     <Button
         android:id="@+id/currentButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:layout_below="@id/stopButton"
-        android:text="@string/current_map"/>
+        android:layout_centerVertical="true"
+        android:text="@string/current_map" />
 
 </RelativeLayout>

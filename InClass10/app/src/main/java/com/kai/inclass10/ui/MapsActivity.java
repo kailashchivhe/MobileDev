@@ -1,6 +1,9 @@
 package com.kai.inclass10.ui;
 
 import androidx.fragment.app.FragmentActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.NavHostController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.graphics.Color;
 import android.os.Bundle;

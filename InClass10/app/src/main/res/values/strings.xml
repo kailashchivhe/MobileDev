@@ -12,7 +12,8 @@
     <string name="submit">Submit</string>
     <string name="cancel">Cancel</string>
     <string name="login_fragment_label">Login</string>
-    <string name="home_fragment_label">Home</string>
+    <string name="home_fragment_label">Logs</string>
+    <string name="jog_fragment_label">Jog</string>
     <string name="start">START</string>
     <string name="stop">STOP</string>
     <string name="current_map">View Current Progress</string>
