@@ -1,4 +1,4 @@
-package com.kai.inclass10;
+package com.kai.inclass10.sdk;
 
 import android.content.Context;
 
