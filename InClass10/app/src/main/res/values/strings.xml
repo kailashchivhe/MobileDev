@@ -17,7 +17,8 @@
     <string name="stop">STOP</string>
     <string name="current_map">View Current Progress</string>
     <string name="login_failure">Please check your login credentials</string>
-    <string name="credentials_invalid">Please enter valid email and password</string>
+    <string name="credentials_invalid">Please enter email and password</string>
     <string name="failure">Failure</string>
+    <string name="create_new_account_title">Create New Account</string>
     <!-- Strings used for fragments for navigation -->
 </resources>
