@@ -46,5 +46,9 @@
         android:id="@+id/jogFragment"
         android:name="com.kai.inclass10.ui.JogFragment"
         android:label="fragment_jog"
-        tools:layout="@layout/fragment_jog" />
+        tools:layout="@layout/fragment_jog" >
+        <action
+            android:id="@+id/action_jogFragment_to_mapsActivity"
+            app:destination="@id/mapsActivity" />
+    </fragment>
 </navigation>

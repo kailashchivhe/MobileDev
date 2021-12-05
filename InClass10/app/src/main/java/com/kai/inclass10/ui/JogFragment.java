@@ -8,6 +8,8 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.os.Looper;
 import android.view.LayoutInflater;
@@ -25,7 +27,9 @@ import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.kai.inclass10.R;
 import com.kai.inclass10.databinding.FragmentJogBinding;
+import com.kai.inclass10.sdk.FirebaseHelper;
 
 import java.util.ArrayList;
 
@@ -77,25 +81,30 @@ public class JogFragment extends Fragment {
         fragmentJogBinding.startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startLocationUpdates();
             }
         });
 
         fragmentJogBinding.currentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                navigateToMap();
             }
         });
 
         fragmentJogBinding.stopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                stopLocationUpdates();
+                FirebaseHelper.addRoute( arrayList );
             }
         });
     }
 
+    private void navigateToMap(){
+        Bundle bundle = new Bundle();
+        NavHostFragment.findNavController( this ).navigate( R.id.action_jogFragment_to_mapsActivity, bundle );
+    }
     @Override
     public void onStart() {
         super.onStart();

@@ -1,10 +1,10 @@
 package com.kai.inclass10.sdk;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.type.LatLng;
 import com.kai.inclass10.listener.LoginListener;
 import com.kai.inclass10.listener.RegisterListener;
 import com.kai.inclass10.listener.RouteListener;
