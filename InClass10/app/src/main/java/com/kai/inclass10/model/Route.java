@@ -6,4 +6,8 @@ import java.util.List;
 
 public class Route {
     public List<LatLng> points;
+
+    public Route(List<LatLng> points) {
+        this.points = points;
+    }
 }

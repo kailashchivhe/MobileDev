@@ -13,6 +13,8 @@ import com.kai.inclass10.listener.RouteListener;
 import com.kai.inclass10.model.Route;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FirebaseHelper {
 
@@ -61,6 +63,8 @@ public class FirebaseHelper {
                 for ( QueryDocumentSnapshot document : queryDocumentSnapshots ) {
                     //TODO verify
                     ArrayList<LatLng> arrayList = (ArrayList<LatLng>) document.get("route");
+                    Route route = new Route( arrayList );
+                    routeList.add( route );
                 }
                 routeListener.onSuccess(routeList);
             }
@@ -70,12 +74,16 @@ public class FirebaseHelper {
         });
     }
 
-    public static void addRoute(ArrayList<LatLng> pointList){
-        firebaseFirestore.collection(ROOT_COLLECTION+"/"+getUser().getUid()+"/history")
-                .add(pointList)
+    public static void addRoute(ArrayList<LatLng> pointList) {
+        Map<String, Object> pointMap = new HashMap<String, Object>();
+        pointMap.put("route", pointList);
+        firebaseFirestore.collection(ROOT_COLLECTION + "/" + getUser().getUid() + "/history")
+                .add(pointMap)
                 .addOnSuccessListener(documentReference -> {
+                    Log.d("Route", "addRoute: Success");
                 })
                 .addOnFailureListener(e -> {
+                    Log.d("Route", "addRoute: Failure");
                 });
     }
 }
