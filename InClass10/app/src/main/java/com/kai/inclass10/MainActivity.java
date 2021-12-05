@@ -9,6 +9,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.kai.inclass10.databinding.ActivityMainBinding;
+import com.kai.inclass10.sdk.FirebaseHelper;
 
 /*
  * Name: Kailash Chivhe & Ankit Vaity
@@ -28,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.toolbar);
+
+        FirebaseHelper.initFirebase();
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();

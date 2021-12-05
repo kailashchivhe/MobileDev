@@ -1,5 +1,7 @@
 package com.kai.inclass10.sdk;
 
+import android.util.Log;
+
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

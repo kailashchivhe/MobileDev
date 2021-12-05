@@ -16,5 +16,8 @@
     <string name="start">START</string>
     <string name="stop">STOP</string>
     <string name="current_map">View Current Progress</string>
+    <string name="login_failure">Please check your login credentials</string>
+    <string name="credentials_invalid">Please enter valid email and password</string>
+    <string name="failure">Failure</string>
     <!-- Strings used for fragments for navigation -->
 </resources>

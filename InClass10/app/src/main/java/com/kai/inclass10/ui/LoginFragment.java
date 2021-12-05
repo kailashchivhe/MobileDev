@@ -1,6 +1,10 @@
 package com.kai.inclass10.ui;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +15,10 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.kai.inclass10.R;
 import com.kai.inclass10.databinding.FragmentLoginBinding;
+import com.kai.inclass10.listener.LoginListener;
+import com.kai.inclass10.sdk.FirebaseHelper;
 
-public class LoginFragment extends Fragment {
+public class LoginFragment extends Fragment implements LoginListener {
 
     private FragmentLoginBinding binding;
 
@@ -33,16 +39,25 @@ public class LoginFragment extends Fragment {
         binding.loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment.findNavController(LoginFragment.this)
-                        .navigate(R.id.action_LoginFragment_to_HomeFragment);
+                onLoginClicked();
             }
         });
+
         binding.createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                NavHostFragment.findNavController(LoginFragment.this)
+                        .navigate(R.id.action_LoginFragment_to_registerFragment);
             }
         });
+    }
+
+    void onLoginClicked(){
+        if( !binding.editTextEmail.getText().toString().isEmpty() && !binding.editTextTextPassword.getText().toString().isEmpty() ) {
+            FirebaseHelper.login(binding.editTextEmail.getText().toString(), binding.editTextTextPassword.getText().toString(), this);
+        } else {
+            showFailureMessage(getString(R.string.credentials_invalid));
+        }
     }
 
     @Override
@@ -51,4 +66,24 @@ public class LoginFragment extends Fragment {
         binding = null;
     }
 
+    @Override
+    public void onSuccess() {
+                NavHostFragment.findNavController(LoginFragment.this)
+                        .navigate(R.id.action_LoginFragment_to_HomeFragment);
+    }
+
+    @Override
+    public void onFailure(String message) {
+        showFailureMessage(message);
+    }
+
+    private void showFailureMessage(String message) {
+        new Handler( Looper.getMainLooper()).post(() -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder( getContext() );
+            builder.setTitle( R.string.failure );
+            builder.setMessage( message );
+            builder.setCancelable( true );
+            builder.show();
+        });
+    }
 }
