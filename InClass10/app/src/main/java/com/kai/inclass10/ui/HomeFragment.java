@@ -56,6 +56,14 @@ public class HomeFragment extends Fragment implements RouteListener, RecyclerLis
                         .navigate(R.id.action_HomeFragment_to_jogFragment);
             }
         });
+
+        binding.logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavHostFragment.findNavController(HomeFragment.this)
+                        .navigate(R.id.action_LoginFragment_to_HomeFragment);
+            }
+        });
     }
 
 
