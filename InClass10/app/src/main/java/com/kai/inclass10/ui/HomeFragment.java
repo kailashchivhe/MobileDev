@@ -61,7 +61,7 @@ public class HomeFragment extends Fragment implements RouteListener, RecyclerLis
             @Override
             public void onClick(View v) {
                 NavHostFragment.findNavController(HomeFragment.this)
-                        .navigate(R.id.action_LoginFragment_to_HomeFragment);
+                        .navigate(R.id.action_HomeFragment_to_LoginFragment);
             }
         });
     }
