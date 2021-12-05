@@ -62,26 +62,7 @@ import java.util.Locale;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private static final int LOCATION_REQUEST_CODE = 100;
-    FusedLocationProviderClient fusedLocationProviderClient;
-    LocationRequest locationRequest;
-    ArrayList<LatLng> arrayList = new ArrayList<>();
-
-    LocationCallback locationCallback = new LocationCallback() {
-        @Override
-        public void onLocationResult(@NonNull LocationResult locationResult) {
-            LatLng latLng = new LatLng( locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude() );
-            if(!arrayList.contains(latLng)){
-                arrayList.add(latLng);
-            }
-            LatLngBounds.Builder builder = new LatLngBounds.Builder();
-            builder.include( latLng );
-            int padding = 50;
-            LatLngBounds bounds = builder.build();
-            final CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-            mMap.setOnMapLoadedCallback(() -> mMap.animateCamera(cu));
-        }
-    };
+    ArrayList<LatLng> routeList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,82 +74,40 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
 
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient( this );
-        locationRequest = com.google.android.gms.location.LocationRequest.create();
-        locationRequest.setInterval(2500);
-        locationRequest.setFastestInterval(1000);
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        if( savedInstanceState != null ){
+            routeList = savedInstanceState.getParcelableArrayList("route" );
+        }
 
         if( mapFragment != null ) {
             mapFragment.getMapAsync(this);
         }
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if( ContextCompat.checkSelfPermission( this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ){
-            checkSettingsAndStartLocationUpdates();
-        }
-        else{
-            askForLocationPermission();
-        }
-    }
-
-    private void checkSettingsAndStartLocationUpdates() {
-        LocationSettingsRequest request = new LocationSettingsRequest.Builder().addLocationRequest( locationRequest ).build();
-        SettingsClient settingsClient = LocationServices.getSettingsClient( this );
-
-        Task<LocationSettingsResponse> locationSettingsResponseTask = settingsClient.checkLocationSettings(request);
-        locationSettingsResponseTask.addOnCompleteListener(new OnCompleteListener<LocationSettingsResponse>() {
-            @Override
-            public void onComplete(@NonNull Task<LocationSettingsResponse> task) {
-                if(task.isSuccessful()){
-                    startLocationUpdates();
-                }
-            }
-        });
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        stopLocationUpdates();
-    }
-
-    private void startLocationUpdates() {
-        arrayList.clear();
-        fusedLocationProviderClient.requestLocationUpdates( locationRequest, locationCallback, Looper.getMainLooper() );
-    }
-
-    private void stopLocationUpdates() {
-        fusedLocationProviderClient.removeLocationUpdates(locationCallback);
-    }
-
-    private void askForLocationPermission() {
-        if( ContextCompat.checkSelfPermission( this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ){
-            if(ActivityCompat.shouldShowRequestPermissionRationale( this, Manifest.permission.ACCESS_FINE_LOCATION ) ){
-                ActivityCompat.requestPermissions( this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE );
-            }
-            else{
-                ActivityCompat.requestPermissions( this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE );
-            }
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == LOCATION_REQUEST_CODE && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            checkSettingsAndStartLocationUpdates();
-        }
-        else{
-            askForLocationPermission();
-        }
-    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        if( routeList != null ) {
+            LatLng start = new LatLng(routeList.get(0).latitude, routeList.get(0).longitude);
+            LatLng end = new LatLng(routeList.get(routeList.size()-1).latitude, routeList.get(routeList.size()-1).longitude);
+            mMap.addMarker( new MarkerOptions().position(start).title("Start") );
+            mMap.addMarker( new MarkerOptions().position(end).title("End") );
+
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
+            PolylineOptions options = new PolylineOptions().width(10).color(Color.BLUE).geodesic(true);
+            for(LatLng point: routeList){
+                LatLng latLng = new LatLng( point.latitude, point.longitude );
+                options.add( latLng );
+                builder.include( latLng );
+            }
+
+            mMap.addPolyline( options );
+
+            int padding = 50;
+            LatLngBounds bounds = builder.build();
+            final CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+            mMap.setOnMapLoadedCallback(() -> mMap.animateCamera(cu));
+        }
     }
 }
