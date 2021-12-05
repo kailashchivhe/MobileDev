@@ -10,6 +10,11 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.kai.inclass10.databinding.ActivityMainBinding;
 
+/*
+ * Name: Kailash Chivhe & Ankit Vaity
+ * Assignment: HW07
+ * file: MainActivity
+ * */
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;

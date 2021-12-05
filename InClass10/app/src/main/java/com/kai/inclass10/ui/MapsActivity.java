@@ -19,11 +19,6 @@ import com.kai.inclass10.databinding.ActivityMapsBinding;
 
 import java.util.ArrayList;
 
-/*
-* Name: Kailash Chivhe & Ankit Vaity
-* Assignment: HW07
-* file: MapsActivity
-* */
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
