@@ -21,6 +21,8 @@ public class FirebaseHelper {
     static FirebaseAuth firebaseAuth;
     static FirebaseFirestore firebaseFirestore;
     static final String ROOT_COLLECTION = "users";
+    static final String ROUTE_DOCUMENT = "route";
+    static final String HISTORY_COLLECTION = "/history";
 
     public static void initFirebase(){
         firebaseAuth = FirebaseAuth.getInstance();
@@ -57,14 +59,17 @@ public class FirebaseHelper {
 
     public static void getAllRoutes( RouteListener routeListener ){
         ArrayList<Route> routeList = new ArrayList<>();
-        firebaseFirestore.collection( ROOT_COLLECTION+"/"+ getUser().getUid()+"/history" ).addSnapshotListener((queryDocumentSnapshots, e) -> {
+        firebaseFirestore.collection( ROOT_COLLECTION+"/"+ getUser().getUid()+ HISTORY_COLLECTION ).addSnapshotListener((queryDocumentSnapshots, e) -> {
             if( e == null && queryDocumentSnapshots != null ){
                 routeList.clear();
                 for ( QueryDocumentSnapshot document : queryDocumentSnapshots ) {
-                    //TODO verify
-                    ArrayList<LatLng> arrayList = (ArrayList<LatLng>) document.get("route");
-                    Route route = new Route( arrayList );
-                    routeList.add( route );
+                    if( document != null ) {
+                        ArrayList<LatLng> arrayList = (ArrayList<LatLng>) document.get(ROUTE_DOCUMENT);
+                        if (arrayList != null) {
+                            Route route = new Route(arrayList);
+                            routeList.add(route);
+                        }
+                    }
                 }
                 routeListener.onSuccess(routeList);
             }
@@ -76,8 +81,8 @@ public class FirebaseHelper {
 
     public static void addRoute(ArrayList<LatLng> pointList) {
         Map<String, Object> pointMap = new HashMap<String, Object>();
-        pointMap.put("route", pointList);
-        firebaseFirestore.collection(ROOT_COLLECTION + "/" + getUser().getUid() + "/history")
+        pointMap.put(ROUTE_DOCUMENT, pointList);
+        firebaseFirestore.collection(ROOT_COLLECTION + "/" + getUser().getUid() + HISTORY_COLLECTION)
                 .add(pointMap)
                 .addOnSuccessListener(documentReference -> {
                     Log.d("Route", "addRoute: Success");
