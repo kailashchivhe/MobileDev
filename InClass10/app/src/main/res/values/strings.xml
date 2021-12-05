@@ -13,5 +13,8 @@
     <string name="cancel">Cancel</string>
     <string name="login_fragment_label">Login</string>
     <string name="home_fragment_label">Home</string>
+    <string name="start">START</string>
+    <string name="stop">STOP</string>
+    <string name="current_map">View Current Progress</string>
     <!-- Strings used for fragments for navigation -->
 </resources>
