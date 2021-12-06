@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +29,7 @@ public class HomeFragment extends Fragment implements RouteListener, RecyclerLis
 
     private FragmentHomeBinding binding;
 
-    ArrayList<Route> logs;
+    ArrayList<Route> logs = new ArrayList<>();
 
     RecyclerViewAdaptor adaptor;
 
@@ -39,13 +38,19 @@ public class HomeFragment extends Fragment implements RouteListener, RecyclerLis
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        adaptor = new RecyclerViewAdaptor(logs, this);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        binding.logsRecyclerView.setLayoutManager( linearLayoutManager );
+        binding.logsRecyclerView.setAdapter(adaptor);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(binding.logsRecyclerView.getContext(), linearLayoutManager.getOrientation());
+        binding.logsRecyclerView.addItemDecoration(dividerItemDecoration);
 
         FirebaseHelper.getAllRoutes(this);
 
@@ -60,13 +65,10 @@ public class HomeFragment extends Fragment implements RouteListener, RecyclerLis
         binding.logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NavHostFragment.findNavController(HomeFragment.this)
-                        .navigate(R.id.action_LoginFragment_to_HomeFragment);
+                NavHostFragment.findNavController(HomeFragment.this).popBackStack();
             }
         });
     }
-
-
 
     @Override
     public void onDestroyView() {
@@ -77,13 +79,8 @@ public class HomeFragment extends Fragment implements RouteListener, RecyclerLis
     @Override
     public void onSuccess(ArrayList<Route> routeList) {
         logs = routeList;
-
-        adaptor = new RecyclerViewAdaptor(logs, this);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        binding.logsRecyclerView.setLayoutManager( linearLayoutManager );
-        binding.logsRecyclerView.setAdapter(adaptor);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(binding.logsRecyclerView.getContext(), linearLayoutManager.getOrientation());
-        binding.logsRecyclerView.addItemDecoration(dividerItemDecoration);
+        adaptor.refreshData( logs );
+        adaptor.notifyDataSetChanged();
     }
 
     @Override
@@ -105,6 +102,7 @@ public class HomeFragment extends Fragment implements RouteListener, RecyclerLis
     public void OnClick(Route route) {
         Bundle bundle = new Bundle();
         bundle.putSerializable( "route", (Serializable) route.points);
-        NavHostFragment.findNavController( this ).navigate( R.id.action_HomeFragment_to_mapsActivity, bundle );
+        NavHostFragment.findNavController( this ).navigate( R.id.action_HomeFragment_to_mapsFragment, bundle );
+
     }
 }

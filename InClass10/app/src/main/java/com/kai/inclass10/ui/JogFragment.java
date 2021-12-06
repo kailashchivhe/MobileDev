@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.os.Looper;
@@ -24,7 +23,6 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.SettingsClient;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.kai.inclass10.R;
@@ -32,6 +30,7 @@ import com.kai.inclass10.databinding.FragmentJogBinding;
 import com.kai.inclass10.sdk.FirebaseHelper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class JogFragment extends Fragment {
@@ -39,13 +38,16 @@ public class JogFragment extends Fragment {
     private static final int LOCATION_REQUEST_CODE = 100;
     FusedLocationProviderClient fusedLocationProviderClient;
     LocationRequest locationRequest;
-    ArrayList<LatLng> arrayList = new ArrayList<>();
+    ArrayList<HashMap<String,Double>> arrayList = new ArrayList<>();
     FragmentJogBinding fragmentJogBinding;
 
     LocationCallback locationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(@NonNull LocationResult locationResult) {
-            LatLng latLng = new LatLng( locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude() );
+//            LatLng latLng = new LatLng( locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude() );
+            HashMap<String,Double> latLng = new HashMap<>();
+            latLng.put("latitude",locationResult.getLastLocation().getLatitude());
+            latLng.put("longitude",locationResult.getLastLocation().getLongitude());
             if(!arrayList.contains(latLng)){
                 arrayList.add(latLng);
             }
@@ -104,7 +106,7 @@ public class JogFragment extends Fragment {
     private void navigateToMap(){
         Bundle bundle = new Bundle();
         bundle.putSerializable( "route", arrayList );
-        NavHostFragment.findNavController( this ).navigate( R.id.action_jogFragment_to_mapsActivity, bundle );
+        NavHostFragment.findNavController( this ).navigate( R.id.action_jogFragment_to_mapsFragment, bundle );
     }
     @Override
     public void onStart() {

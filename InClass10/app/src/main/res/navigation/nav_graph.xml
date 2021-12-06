@@ -23,17 +23,13 @@
         android:label="@string/home_fragment_label"
         tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/action_HomeFragment_to_mapsActivity"
-            app:destination="@id/mapsActivity" />
-        <action
             android:id="@+id/action_HomeFragment_to_jogFragment"
             app:destination="@id/jogFragment" />
-    </fragment>
+        <action
+            android:id="@+id/action_HomeFragment_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
 
-    <activity
-        android:id="@+id/mapsActivity"
-        android:name="com.kai.inclass10.ui.MapsActivity"
-        android:label="MapsActivity" />
+    </fragment>
 
     <fragment
         android:id="@+id/registerFragment"
@@ -52,8 +48,15 @@
         android:name="com.kai.inclass10.ui.JogFragment"
         android:label="Jog"
         tools:layout="@layout/fragment_jog">
+
         <action
-            android:id="@+id/action_jogFragment_to_mapsActivity"
-            app:destination="@id/mapsActivity" />
+            android:id="@+id/action_jogFragment_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/mapsFragment"
+        android:name="com.kai.inclass10.ui.MapsFragment"
+        android:label="fragment_maps"
+        tools:layout="@layout/fragment_maps" />
+
 </navigation>

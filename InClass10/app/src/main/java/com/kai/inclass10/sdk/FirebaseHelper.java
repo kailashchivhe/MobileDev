@@ -64,7 +64,7 @@ public class FirebaseHelper {
                 routeList.clear();
                 for ( QueryDocumentSnapshot document : queryDocumentSnapshots ) {
                     if( document != null ) {
-                        ArrayList<LatLng> arrayList = (ArrayList<LatLng>) document.get(ROUTE_DOCUMENT);
+                        ArrayList<HashMap<String,Double>> arrayList = (ArrayList<HashMap<String,Double>>) document.get(ROUTE_DOCUMENT);
                         if (arrayList != null) {
                             Route route = new Route(arrayList);
                             routeList.add(route);
@@ -79,7 +79,7 @@ public class FirebaseHelper {
         });
     }
 
-    public static void addRoute(ArrayList<LatLng> pointList) {
+    public static void addRoute(ArrayList<HashMap<String,Double>> pointList) {
         Map<String, Object> pointMap = new HashMap<String, Object>();
         pointMap.put(ROUTE_DOCUMENT, pointList);
         firebaseFirestore.collection(ROOT_COLLECTION + "/" + getUser().getUid() + HISTORY_COLLECTION)
