@@ -41,8 +41,7 @@ public class RegisterFragment extends Fragment implements RegisterListener {
         fragmentRegisterBinding.cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NavHostFragment.findNavController(RegisterFragment.this)
-                        .navigate(R.id.action_registerFragment_to_LoginFragment);
+                NavHostFragment.findNavController(RegisterFragment.this).popBackStack();
             }
         });
 
