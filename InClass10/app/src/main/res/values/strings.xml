@@ -21,5 +21,6 @@
     <string name="credentials_invalid">Please enter email and password</string>
     <string name="failure">Failure</string>
     <string name="create_new_account_title">Create New Account</string>
+    <string name="need_more_points">More than 2 points required</string>
     <!-- Strings used for fragments for navigation -->
 </resources>

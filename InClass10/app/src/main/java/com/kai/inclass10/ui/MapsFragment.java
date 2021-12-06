@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -40,14 +41,21 @@ public class MapsFragment extends Fragment {
                 mMap.addMarker( new MarkerOptions().position(end).title("End") );
 
                 PolylineOptions options = new PolylineOptions().width(10).color(Color.BLUE).geodesic(true);
+                LatLngBounds.Builder builder = new LatLngBounds.Builder();
                 for(HashMap<String,Double> point: routeList){
                     LatLng latLng = new LatLng( point.get("latitude"), point.get("longitude") );
                     options.add( latLng );
+                    builder.include( latLng );
                 }
 
                 mMap.addPolyline( options );
-                final CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(end, 12.0f);
+                int padding = 50;
+                LatLngBounds bounds = builder.build();
+                final CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
                 mMap.setOnMapLoadedCallback(() -> mMap.animateCamera(cu));
+            }
+            else{
+                Toast.makeText( getContext(), R.string.need_more_points, Toast.LENGTH_LONG ).show();
             }
         }
     };
